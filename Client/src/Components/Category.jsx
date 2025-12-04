@@ -1,8 +1,10 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function ProductCategorySection() {
+  const navigate = useNavigate();
+
   const categories = [
     {
       id: 1,
@@ -24,12 +26,20 @@ export default function ProductCategorySection() {
     }
   ];
 
+  const handleClick = (e, link) => {
+    e.preventDefault();
+    navigate(link);
+    window.scrollTo(0, 0);
+    window.location.reload();
+  };
+
   return (
     <div className="w-full flex flex-col md:flex-row gap-4">
       {categories.map((category) => (
         <Link
           key={category.id}
           to={category.link}
+          onClick={(e) => handleClick(e, category.link)}
           className="relative group overflow-hidden flex-1 aspect-[3/4] md:aspect-auto md:h-[800px] cursor-pointer"
         >
           {/* Background Image or Video */}
