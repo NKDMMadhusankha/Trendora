@@ -4,48 +4,6 @@ import { Truck, Shield, RotateCcw, TreePine, Facebook, Instagram, Youtube } from
 const Footer = () => {
   return (
     <footer className="border-t-2 border-black" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
-      {/* Features Section */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 text-center">
-          {/* Shipping */}
-          <div className="flex flex-col items-center">
-            <Truck className="w-12 h-12 mb-3" strokeWidth={1.5} />
-            <h3 className="font-semibold text-lg mb-2">Shipping</h3>
-            <p className="text-gray-600 text-sm">Standard shipping (Estimated 3-5 days)</p>
-          </div>
-
-          {/* Payments */}
-          <div className="flex flex-col items-center">
-            <Shield className="w-12 h-12 mb-3" strokeWidth={1.5} />
-            <h3 className="font-semibold text-lg mb-2">Payments</h3>
-            <p className="text-gray-600 text-sm">Payment is 100% secure</p>
-          </div>
-
-          {/* Easy Returns */}
-          <div className="flex flex-col items-center">
-            <RotateCcw className="w-12 h-12 mb-3" strokeWidth={1.5} />
-            <h3 className="font-semibold text-lg mb-2">Easy Returns</h3>
-            <p className="text-gray-600 text-sm">30 days to change your mind!</p>
-          </div>
-
-          {/* Made in Sri Lanka */}
-          <div className="flex flex-col items-center">
-            <TreePine className="w-12 h-12 mb-3" strokeWidth={1.5} />
-            <h3 className="font-semibold text-lg mb-2">Made in Sri Lanka</h3>
-            <p className="text-gray-600 text-sm">Sustainably Sourced</p>
-          </div>
-        </div>
-
-        {/* Back to top */}
-        <div className="mt-12 text-center">
-          <button 
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="inline-flex items-center text-sm font-semibold hover:underline"
-          >
-            Back to top ↑
-          </button>
-        </div>
-      </div>
 
       {/* Footer Links Section */}
       <div className="border-t border-gray-200">
