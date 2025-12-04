@@ -3,53 +3,55 @@ import { Truck, Shield, RotateCcw, TreePine, Facebook, Instagram, Youtube } from
 
 const Footer = () => {
   return (
-    <footer className="border-t-2 border-black" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+    <footer className="border-t-2 border-black bg-black text-white" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
 
       {/* Footer Links Section */}
-      <div className="border-t border-gray-200">
+      <div className="border-t border-gray-700">
         <div className="max-w-7xl mx-auto px-4 py-12">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Locations */}
             <div>
               <h4 className="font-bold text-sm mb-4 uppercase">Locations</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li><a href="#" className="hover:text-gray-900">STORE LOCATOR</a></li>
-                <li><a href="#" className="hover:text-gray-900">&gt; ONE GALLE FACE</a></li>
-                <li><a href="#" className="hover:text-gray-900">&gt; COLOMBO CITY CENTRE</a></li>
-                <li><a href="#" className="hover:text-gray-900">&gt; KANDY CITY CENTRE</a></li>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li><a href="#" className="hover:text-white">STORE LOCATOR</a></li>
+                <li className="text-gray-400">
+                  123 Main Street,<br />
+                  Colombo 01,<br />
+                  Sri Lanka
+                </li>
               </ul>
             </div>
 
             {/* About Us */}
             <div>
               <h4 className="font-bold text-sm mb-4 uppercase">About Us</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li><a href="#" className="hover:text-gray-900">FAQS</a></li>
-                <li><a href="#" className="hover:text-gray-900">SHIPPING & RETURNS</a></li>
-                <li><a href="#" className="hover:text-gray-900">ABOUT US</a></li>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li><a href="#" className="hover:text-white">FAQS</a></li>
+                <li><a href="#" className="hover:text-white">SHIPPING & RETURNS</a></li>
+                <li><a href="#" className="hover:text-white">ABOUT US</a></li>
               </ul>
             </div>
 
             {/* Legal */}
             <div>
               <h4 className="font-bold text-sm mb-4 uppercase">Legal</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li><a href="#" className="hover:text-gray-900">PRIVACY POLICY</a></li>
-                <li><a href="#" className="hover:text-gray-900">TERMS OF SERVICE</a></li>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li><a href="#" className="hover:text-white">PRIVACY POLICY</a></li>
+                <li><a href="#" className="hover:text-white">TERMS OF SERVICE</a></li>
               </ul>
             </div>
 
             {/* Contact Us */}
             <div>
               <h4 className="font-bold text-sm mb-4 uppercase">Contact Us</h4>
-              <ul className="space-y-3 text-sm text-gray-600">
+              <ul className="space-y-3 text-sm text-gray-300">
                 <li>
-                  <a href="tel:+94773605553" className="hover:text-gray-900 flex items-center gap-2">
+                  <a href="tel:+94773605553" className="hover:text-white flex items-center gap-2">
                     <span>📞</span> +94773605553
                   </a>
                 </li>
                 <li>
-                  <a href="mailto:hello@trendora.com" className="hover:text-gray-900 flex items-center gap-2">
+                  <a href="mailto:hello@trendora.com" className="hover:text-white flex items-center gap-2">
                     <span>✉️</span> hello@trendora.com
                   </a>
                 </li>
@@ -58,22 +60,22 @@ const Footer = () => {
           </div>
 
           {/* Collections, Careers and Social Media */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 pt-8 border-t border-gray-200">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12 pt-8 border-t border-gray-700">
             {/* Our Collections */}
             <div>
               <h4 className="font-bold text-sm mb-4 uppercase">Our Collections</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li><a href="#" className="hover:text-gray-900">MEN</a></li>
-                <li><a href="#" className="hover:text-gray-900">WOMEN</a></li>
-                <li><a href="#" className="hover:text-gray-900">ACCESSORIES</a></li>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li><a href="#" className="hover:text-white">MEN</a></li>
+                <li><a href="#" className="hover:text-white">WOMEN</a></li>
+                <li><a href="#" className="hover:text-white">ACCESSORIES</a></li>
               </ul>
             </div>
 
             {/* Careers */}
             <div>
               <h4 className="font-bold text-sm mb-4 uppercase">Careers</h4>
-              <ul className="space-y-2 text-sm text-gray-600">
-                <li><a href="#" className="hover:text-gray-900">JOIN TRENDORA TEAM</a></li>
+              <ul className="space-y-2 text-sm text-gray-300">
+                <li><a href="#" className="hover:text-white">JOIN TRENDORA TEAM</a></li>
               </ul>
             </div>
 
@@ -83,28 +85,28 @@ const Footer = () => {
               <div className="flex gap-4">
                 <a 
                   href="#" 
-                  className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                  className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
                   aria-label="Facebook"
                 >
                   <Facebook size={20} fill="currentColor" />
                 </a>
                 <a 
                   href="#" 
-                  className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                  className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
                   aria-label="Instagram"
                 >
                   <Instagram size={20} />
                 </a>
                 <a 
                   href="#" 
-                  className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                  className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
                   aria-label="YouTube"
                 >
                   <Youtube size={20} fill="currentColor" />
                 </a>
                 <a 
                   href="#" 
-                  className="w-10 h-10 bg-black text-white rounded-full flex items-center justify-center hover:bg-gray-800 transition-colors"
+                  className="w-10 h-10 bg-white text-black rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors"
                   aria-label="TikTok"
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
