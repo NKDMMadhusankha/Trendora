@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Search, ShoppingCart, User, Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Logo from '../Images/Logo.png';
 
 const Navbar = () => {
@@ -97,10 +98,17 @@ const Navbar = () => {
                 onMouseEnter={() => handleMouseEnter(key)}
                 onMouseLeave={handleMouseLeave}
               >
-                <button className="flex items-center space-x-1 text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
-                  <span>{menu.title}</span>
-                  <ChevronDown className="w-4 h-4" />
-                </button>
+                {key === 'men' ? (
+                  <Link to="/mens" className="flex items-center space-x-1 text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
+                    <span>{menu.title}</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </Link>
+                ) : (
+                  <button className="flex items-center space-x-1 text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
+                    <span>{menu.title}</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             ))}
             <a href="#" className="text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
@@ -197,13 +205,23 @@ const Navbar = () => {
           <div className="px-4 py-4 space-y-4">
             {Object.entries(menuItems).map(([key, menu]) => (
               <div key={key} className="border-b pb-4">
-                <button
-                  onClick={() => setActiveMegaMenu(activeMegaMenu === key ? null : key)}
-                  className="flex items-center justify-between w-full text-left font-medium text-gray-900"
-                >
-                  <span>{menu.title}</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform ${activeMegaMenu === key ? 'rotate-180' : ''}`} />
-                </button>
+                {key === 'men' ? (
+                  <Link
+                    to="/mens"
+                    className="flex items-center justify-between w-full text-left font-medium text-gray-900"
+                  >
+                    <span>{menu.title}</span>
+                    <ChevronDown className={`w-4 h-4 transition-transform ${activeMegaMenu === key ? 'rotate-180' : ''}`} />
+                  </Link>
+                ) : (
+                  <button
+                    onClick={() => setActiveMegaMenu(activeMegaMenu === key ? null : key)}
+                    className="flex items-center justify-between w-full text-left font-medium text-gray-900"
+                  >
+                    <span>{menu.title}</span>
+                    <ChevronDown className={`w-4 h-4 transition-transform ${activeMegaMenu === key ? 'rotate-180' : ''}`} />
+                  </button>
+                )}
                 {activeMegaMenu === key && (
                   <div className="mt-4 space-y-4">
                     {menu.columns.map((column, idx) => (

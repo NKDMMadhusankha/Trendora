@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function ProductCategorySection() {
   const categories = [
@@ -26,8 +27,9 @@ export default function ProductCategorySection() {
   return (
     <div className="w-full flex flex-col md:flex-row gap-4">
       {categories.map((category) => (
-        <div
+        <Link
           key={category.id}
+          to={category.link}
           className="relative group overflow-hidden flex-1 aspect-[3/4] md:aspect-auto md:h-[800px] cursor-pointer"
         >
           {/* Background Image or Video */}
@@ -62,7 +64,7 @@ export default function ProductCategorySection() {
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
