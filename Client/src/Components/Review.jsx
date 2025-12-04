@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 
 export default function Testimonials() {
   const testimonials = [
@@ -74,67 +75,138 @@ export default function Testimonials() {
     }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { 
+      opacity: 0, 
+      y: 50 
+    },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen py-20 px-4" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center mb-16" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
-          <div className="flex items-center justify-center gap-4 mb-6">
+        <motion.div 
+          className="text-center mb-16" 
+          style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
+          initial={{ opacity: 0, y: -30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <motion.div 
+            className="flex items-center justify-center gap-4 mb-6"
+            initial={{ opacity: 0, scale: 0 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
             <div className="h-px w-16 bg-gradient-to-r from-transparent to-gray-400"></div>
             <div className="h-px w-16 bg-gradient-to-l from-transparent to-gray-400"></div>
-          </div>
+          </motion.div>
           
-          <h2 className="text-4xl md:text-5xl text-black mb-4" style={{ fontWeight: 'bold', fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+          <motion.h2 
+            className="text-4xl md:text-5xl text-black mb-4" 
+            style={{ fontWeight: 'bold', fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
             WHAT OUT CUSTOMERS ARE SAYING
-          </h2>
+          </motion.h2>
           
-          <p className="text-gray-600 max-w-3xl mx-auto" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+          <motion.p 
+            className="text-gray-600 max-w-3xl mx-auto" 
+            style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             Discover why fashion lovers choose Trendora for their wardrobe essentials. 
             Read what our satisfied customers have to say about their shopping experience.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         {/* Testimonials Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+        <motion.div 
+          className="grid grid-cols-1 md:grid-cols-3 gap-2"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
           {testimonials.map((testimonial, index) => (
-            <div
+            <motion.div
               key={index}
-              className={`bg-black rounded-2xl p-6 border border-gray-800 hover:border-gray-600 transition-all duration-300 hover:shadow-lg ${testimonial.span}`}
-              style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
+              className={`bg-gray-200 rounded-2xl p-6 border border-gray-300 shadow-md hover:border-gray-400 hover:shadow-xl transition-all duration-300 ${testimonial.span}`}
+              style={{ 
+                fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif',
+                boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+              }}
+              variants={cardVariants}
             >
               {/* Quote Icon */}
-              <div className="w-10 h-10 bg-gray-900 rounded-lg flex items-center justify-center mb-4">
+              <motion.div 
+                className="w-10 h-10 bg-gray-300 rounded-lg flex items-center justify-center mb-4"
+                whileHover={{ rotate: 360 }}
+                transition={{ duration: 0.6 }}
+              >
                 <svg
-                  className="w-5 h-5 text-white"
+                  className="w-5 h-5 text-black"
                   fill="currentColor"
                   viewBox="0 0 24 24"
                 >
                   <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                 </svg>
-              </div>
+              </motion.div>
 
               {/* Testimonial Text */}
-              <p className="text-white text-sm leading-relaxed mb-6" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+              <p className="text-black text-sm leading-relaxed mb-6" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
                 {testimonial.text}
               </p>
 
               {/* Author Info */}
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center text-black font-semibold text-sm" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+                <motion.div 
+                  className="w-10 h-10 bg-black rounded-full flex items-center justify-center text-white font-semibold text-sm" 
+                  style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}
+                  whileHover={{ scale: 1.2 }}
+                  transition={{ duration: 0.3 }}
+                >
                   {testimonial.avatar}
-                </div>
+                </motion.div>
                 <div>
-                  <h4 className="text-white font-semibold text-sm" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+                  <h4 className="text-black font-semibold text-sm" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
                     {testimonial.name}
                   </h4>
-                  <p className="text-gray-400 text-xs" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
+                  <p className="text-gray-600 text-xs" style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
                     {testimonial.role}
                   </p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </div>
   );
