@@ -4,6 +4,7 @@ import Banner from '../Components/Banner'
 import BestSell from '../Components/BestSell'
 import Category from '../Components/Category'
 import Review from '../Components/Review'
+import Footer from '../Components/Footer'
 
 const HomePage = () => {
   return (
@@ -13,6 +14,7 @@ const HomePage = () => {
         <BestSell />
         <Category />
         <Review />
+        <Footer />
     </div>
   )
 }

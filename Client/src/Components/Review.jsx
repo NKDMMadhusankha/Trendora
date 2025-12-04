@@ -149,7 +149,7 @@ export default function Testimonials() {
 
         {/* Testimonials Grid */}
         <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-2"
+          className="grid grid-cols-1 md:grid-cols-3 gap-5"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
