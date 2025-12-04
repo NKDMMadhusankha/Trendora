@@ -74,12 +74,12 @@ const Navbar = () => {
   return (
     <nav className="bg-white shadow-md relative z-50">
       {/* Top Bar */}
-      {/* <div className="bg-red-600 text-white text-center py-2 px-4 text-sm">
+      <div className="bg-gray-600 text-white text-center py-2 px-4 text-sm">
         <p>BLACK FRIDAY SALE - UP TO 50% OFF | FREE SHIPPING ON ORDERS OVER $50</p>
-      </div> */}
+      </div>
 
       {/* Main Navbar */}
-      <div className="px-40">
+      <div className="px-20">
         <div className="flex items-center justify-between h-16 relative">
           {/* Logo */}
           <div className="flex-shrink-0 z-10 cursor-pointer">
@@ -165,7 +165,7 @@ const Navbar = () => {
             onMouseLeave={handleMouseLeave}
           >
             <div className="py-5">
-              <div className="grid grid-cols-3 gap-60 max-w-6xl mx-auto px-40">
+              <div className="grid grid-cols-3 gap-60 max-w-6xl mx-auto px-20">
                 {menuItems[activeMegaMenu].columns.map((column, idx) => (
                   <motion.div
                     key={idx}

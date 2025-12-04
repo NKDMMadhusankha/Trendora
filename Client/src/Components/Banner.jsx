@@ -7,13 +7,11 @@ const Banner = () => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   
   const rotatingTexts = [
-    'Wear What Defines You',
     'Own Your Look',
     'Express Yourself',
     'Define Your Style',
     'Show Your Vibe',
     'Be Bold, Be You',
-    'Wear Your Confidence',
     'Dress to Impress',
     'Unleash Your Style',
     'Make It Yours',
@@ -29,16 +27,26 @@ const Banner = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-[600px] md:h-[700px] lg:h-[800px] bg-black overflow-hidden">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8 }}
+      className="relative w-full h-[610px] md:h-[710px] lg:h-[810px] bg-black overflow-hidden"
+    >
       {/* Left side - Black background (visible through the clipped image) */}
       <div className="absolute inset-0 bg-black"></div>
       
       {/* Text Content on Left Side */}
-      <div className="absolute left-0 top-0 h-full w-[55%] flex items-start pt-40 md:pt-48 lg:pt-56 px-40 z-10">
+      <motion.div 
+        initial={{ x: -100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="absolute left-0 top-0 h-full w-[55%] flex items-start pt-44 md:pt-52 lg:pt-72 px-20 z-10"
+      >
         <div className="max-w-2xl">
-          <h1 className="text-white font-bold leading-tight">
-            <span className="text-4xl md:text-5xl lg:text-6xl block">STEP UP YOUR STYLE -  </span>
-            <div className="text-4xl md:text-5xl lg:text-6xl block mt-2 h-24 md:h-28 lg:h-32">
+          <h1 className="text-white font-bold leading-tight" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+            <span className="text-3xl md:text-4xl lg:text-5xl block">STEP UP YOUR STYLE -  </span>
+            <div className="text-3xl md:text-4xl lg:text-5xl block mt-2 h-24 md:h-28 lg:h-32">
               <AnimatePresence mode="wait">
                 <motion.span
                   key={currentTextIndex}
@@ -53,22 +61,31 @@ const Banner = () => {
               </AnimatePresence>
             </div>
           </h1>
-          <button className="mt-1 bg-white text-black px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-200 transition-colors flex items-center gap-2">
+          <motion.button 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="mt-1 bg-white text-black px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-200 transition-colors flex items-center gap-2" 
+            style={{ fontFamily: 'Montserrat, sans-serif' }}
+          >
             Shop Now
             <ArrowRight className="w-5 h-5" />
-          </button>
+          </motion.button>
         </div>
-      </div>
+      </motion.div>
       
       {/* Right side - Image with clip-path */}
-      <div 
+      <motion.div 
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.8, delay: 0.4 }}
         className="absolute inset-0 bg-cover bg-right ml-96"
         style={{
           backgroundImage: `url(${BannerImage})`,
           clipPath: 'polygon(55% 0, 100% 0, 100% 100%, 0% 100%)'
         }}
-      ></div>
-    </div>
+      ></motion.div>
+    </motion.div>
   );
 };
 
