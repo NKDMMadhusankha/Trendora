@@ -3,6 +3,7 @@ import Navbar from '../Components/Navbar'
 import Banner from '../Components/Banner'
 import BestSell from '../Components/BestSell'
 import Category from '../Components/Category'
+import Review from '../Components/Review'
 
 const HomePage = () => {
   return (
@@ -11,6 +12,7 @@ const HomePage = () => {
         <Banner />
         <BestSell />
         <Category />
+        <Review />
     </div>
   )
 }
