@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../Images/Logo2.png';
 import axios from 'axios';
 
@@ -51,6 +51,7 @@ export default function RegisterForm() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [toast, setToast] = useState({ message: '', type: '' });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -78,6 +79,9 @@ export default function RegisterForm() {
       setSuccess(res.data.message || 'Registration successful!');
       setToast({ message: res.data.message || 'Registration successful!', type: 'success' });
       setFormData({ fullName: '', email: '', password: '', confirmPassword: '' });
+      setTimeout(() => {
+        navigate('/login'); // Redirect to Login page after registration
+      }, 1200); // Wait for toast to show
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed.');
       setToast({ message: err.response?.data?.message || 'Registration failed.', type: 'error' });

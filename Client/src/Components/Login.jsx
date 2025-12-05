@@ -1,17 +1,68 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import { Mail, Lock, Eye, EyeOff } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../Images/Logo2.png';
+
+function Toast({ message, type, onClose }) {
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(onClose, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message, onClose]);
+  if (!message) return null;
+  return (
+    <div
+      className={`fixed top-8 right-8 z-50 px-6 py-3 rounded-lg shadow-lg text-center font-medium transition-all duration-500 transform ${type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'} animate-toast`}
+      style={{ minWidth: '220px', maxWidth: '90vw' }}
+    >
+      {message}
+    </div>
+  );
+}
+
+if (!document.getElementById('toast-anim-style')) {
+  const style = document.createElement('style');
+  style.id = 'toast-anim-style';
+  style.innerHTML = `
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(-40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .animate-toast {
+      animation: toast-in 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+  `;
+  document.head.appendChild(style);
+}
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState({ message: '', type: '' });
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Login submitted:', { email, password });
-    // Add your login logic here
+    setToast({ message: '', type: '' });
+    setLoading(true);
+    try {
+      const res = await axios.post('http://localhost:5000/api/auth/login', {
+        email,
+        password
+      });
+      setToast({ message: res.data.message || 'Login successful!', type: 'success' });
+      setTimeout(() => {
+        navigate('/'); // Redirect to HomePage after login
+      }, 1200); // Wait for toast to show
+    } catch (err) {
+      setToast({ message: err.response?.data?.message || 'Login failed.', type: 'error' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -98,7 +149,7 @@ export default function LoginForm() {
               type="submit"
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900"
             >
-              Sign In
+              {loading ? 'Signing In...' : 'Sign In'}
             </button>
           </form>
 
@@ -139,6 +190,7 @@ export default function LoginForm() {
           </p>
         </div>
       </div>
+      <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: '', type: '' })} />
     </div>
   );
 }
