@@ -139,6 +139,11 @@ const Navbar = () => {
                     <span>{menu.title}</span>
                     <ChevronDown className="w-4 h-4" />
                   </Link>
+                ) : key === 'women' ? (
+                  <Link to="/womens" className="flex items-center space-x-1 text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
+                    <span>{menu.title}</span>
+                    <ChevronDown className="w-4 h-4" />
+                  </Link>
                 ) : (
                   <button className="flex items-center space-x-1 text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
                     <span>{menu.title}</span>
@@ -263,6 +268,14 @@ const Navbar = () => {
                 {key === 'men' ? (
                   <Link
                     to="/mens"
+                    className="flex items-center justify-between w-full text-left font-medium text-gray-900"
+                  >
+                    <span>{menu.title}</span>
+                    <ChevronDown className={`w-4 h-4 transition-transform ${activeMegaMenu === key ? 'rotate-180' : ''}`} />
+                  </Link>
+                ) : key === 'women' ? (
+                  <Link
+                    to="/womens"
                     className="flex items-center justify-between w-full text-left font-medium text-gray-900"
                   >
                     <span>{menu.title}</span>
