@@ -4,7 +4,6 @@ import MensPage from './Pages/MensPage'
 import Login from './Components/Login'
 import toast from 'react-hot-toast'
 import Register from './Components/Register'
-import OrderProfile from './Pages/OrderProfile'
 
 const App = () => {
   return (
@@ -14,7 +13,6 @@ const App = () => {
       <Route path="/mens" element={<MensPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/orders" element={<OrderProfile />} />
     </Routes>
     </div>
   )

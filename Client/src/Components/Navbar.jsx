@@ -33,20 +33,29 @@ const Navbar = () => {
     localStorage.setItem('isLoggedIn', val ? 'true' : 'false');
   };
 
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+
   const handleProfileClick = () => {
     // Always check localStorage for latest login state
     const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
     if (loggedIn) {
-      navigate('/orderprofile');
+      setShowProfileDropdown((prev) => !prev);
     } else {
       navigate('/login');
+    }
+  };
+
+  const handleProfileBlur = (e) => {
+    // Close dropdown if focus leaves the profile button or dropdown
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setShowProfileDropdown(false);
     }
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.setItem('isLoggedIn', 'false');
-    navigate('/');
+    navigate('/login');
   };
 
   const menuItems = {
@@ -154,23 +163,28 @@ const Navbar = () => {
               />
             </div>
             <div className="relative flex items-center">
-              <button
-                className="text-gray-800 hover:text-gray-600 transition-colors rounded-full border border-black p-1 flex items-center"
-                onClick={handleProfileClick}
-              >
-                <User className="w-5 h-5" />
-              </button>
-              {/* Dropdown for Log Out only if logged in */}
-              {isLoggedIn && (
-                <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
-                  <button
-                    onClick={handleLogout}
-                    className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm"
-                  >
-                    Log Out
-                  </button>
-                </div>
-              )}
+              <div className="relative" tabIndex={-1} onBlur={handleProfileBlur}>
+                <button
+                  className="text-gray-800 hover:text-gray-600 transition-colors rounded-full border border-black p-1 flex items-center"
+                  onClick={handleProfileClick}
+                  aria-haspopup="true"
+                  aria-expanded={showProfileDropdown}
+                  tabIndex={0}
+                >
+                  <User className="w-5 h-5" />
+                </button>
+                {/* Dropdown for Log Out only if logged in */}
+                {isLoggedIn && showProfileDropdown && (
+                  <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-full min-w-[8rem] max-w-[12rem] bg-gray-800 border border-transparent rounded-lg shadow-lg py-2 z-50 flex justify-center">
+                    <button
+                      onClick={() => { setShowProfileDropdown(false); handleLogout(); }}
+                      className="w-full max-w-xs text-left px-4 py-2 bg-red-600 text-white hover:bg-red-700 font-semibold text-sm rounded"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
             <button className="text-gray-800 hover:text-gray-600 transition-colors relative">
               <ShoppingCart className="w-5 h-5" />
@@ -287,12 +301,30 @@ const Navbar = () => {
               GIFTS
             </a>
             <div className="pt-4 border-t flex items-center space-x-4">
-              <button className="flex items-center space-x-2 text-gray-800">
-                <div className="rounded-full border border-black p-1">
-                  <User className="w-5 h-5" />
-                </div>
-                <span className="text-sm">Account</span>
-              </button>
+              <div className="relative w-full" tabIndex={-1} onBlur={handleProfileBlur}>
+                <button
+                  className="flex items-center space-x-2 text-gray-800 w-full"
+                  onClick={handleProfileClick}
+                  aria-haspopup="true"
+                  aria-expanded={showProfileDropdown}
+                  tabIndex={0}
+                >
+                  <div className="rounded-full border border-black p-1">
+                    <User className="w-5 h-5" />
+                  </div>
+                  <span className="text-sm">Account</span>
+                </button>
+                {isLoggedIn && showProfileDropdown && (
+                  <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                    <button
+                      onClick={() => { setShowProfileDropdown(false); handleLogout(); }}
+                      className="block w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 hover:text-red-700 font-semibold text-sm"
+                    >
+                      Log Out
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

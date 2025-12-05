@@ -55,6 +55,12 @@ export default function LoginForm() {
         password
       });
       setToast({ message: res.data.message || 'Login successful!', type: 'success' });
+      // Set login state globally for Navbar
+      if (window.setTrendoraLoggedIn) {
+        window.setTrendoraLoggedIn(true);
+      } else {
+        localStorage.setItem('isLoggedIn', 'true');
+      }
       setTimeout(() => {
         navigate('/'); // Redirect to HomePage after login
       }, 1200); // Wait for toast to show
