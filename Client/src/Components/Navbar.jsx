@@ -1,13 +1,18 @@
 import React, { useState, useRef } from 'react';
 import { Search, ShoppingCart, User, Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../Images/Logo.png';
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    // Use a more robust check for login state
+    return localStorage.getItem('isLoggedIn') === 'true';
+  });
   const closeTimeoutRef = useRef(null);
+  const navigate = useNavigate();
 
   const handleMouseEnter = (key) => {
     if (closeTimeoutRef.current) {
@@ -20,6 +25,28 @@ const Navbar = () => {
     closeTimeoutRef.current = setTimeout(() => {
       setActiveMegaMenu(null);
     }, 150);
+  };
+
+  // Expose setIsLoggedIn for Login.jsx
+  window.setTrendoraLoggedIn = (val) => {
+    setIsLoggedIn(val);
+    localStorage.setItem('isLoggedIn', val ? 'true' : 'false');
+  };
+
+  const handleProfileClick = () => {
+    // Always check localStorage for latest login state
+    const loggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (loggedIn) {
+      navigate('/orderprofile');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.setItem('isLoggedIn', 'false');
+    navigate('/');
   };
 
   const menuItems = {
@@ -126,11 +153,25 @@ const Navbar = () => {
                 className="pl-10 pr-4 py-2 border border-gray-500 rounded-full focus:outline-none focus:border-black transition-colors text-sm"
               />
             </div>
-            <button className="text-gray-800 hover:text-gray-600 transition-colors">
-              <div className="rounded-full border border-black p-1">
+            <div className="relative flex items-center">
+              <button
+                className="text-gray-800 hover:text-gray-600 transition-colors rounded-full border border-black p-1 flex items-center"
+                onClick={handleProfileClick}
+              >
                 <User className="w-5 h-5" />
-              </div>
-            </button>
+              </button>
+              {/* Dropdown for Log Out only if logged in */}
+              {isLoggedIn && (
+                <div className="absolute right-0 mt-2 w-32 bg-white border border-gray-200 rounded-lg shadow-lg py-2 z-50">
+                  <button
+                    onClick={handleLogout}
+                    className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-100 text-sm"
+                  >
+                    Log Out
+                  </button>
+                </div>
+              )}
+            </div>
             <button className="text-gray-800 hover:text-gray-600 transition-colors relative">
               <ShoppingCart className="w-5 h-5" />
               <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
