@@ -1,7 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Logo from '../Images/Logo2.png';
+import axios from 'axios';
+
+function Toast({ message, type, onClose }) {
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(onClose, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message, onClose]);
+  if (!message) return null;
+  return (
+    <div
+      className={`fixed top-8 right-8 z-50 px-6 py-3 rounded-lg shadow-lg text-center font-medium transition-all duration-500 transform ${type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'} animate-toast`}
+      style={{ minWidth: '220px', maxWidth: '90vw' }}
+    >
+      {message}
+    </div>
+  );
+}
+
+// Add animation styles for toast
+if (!document.getElementById('toast-anim-style')) {
+  const style = document.createElement('style');
+  style.id = 'toast-anim-style';
+  style.innerHTML = `
+    @keyframes toast-in {
+      from { opacity: 0; transform: translateY(-40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .animate-toast {
+      animation: toast-in 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+  `;
+  document.head.appendChild(style);
+}
 
 export default function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -12,6 +47,10 @@ export default function RegisterForm() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [toast, setToast] = useState({ message: '', type: '' });
 
   const handleChange = (e) => {
     setFormData({
@@ -20,13 +59,31 @@ export default function RegisterForm() {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match!');
+      setToast({ message: 'Passwords do not match!', type: 'error' });
       return;
     }
-    console.log('Registration submitted:', formData);
-    // Add your registration logic here
+    setLoading(true);
+    try {
+      const res = await axios.post('http://localhost:5000/api/users/register', {
+        fullName: formData.fullName,
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword
+      });
+      setSuccess(res.data.message || 'Registration successful!');
+      setToast({ message: res.data.message || 'Registration successful!', type: 'success' });
+      setFormData({ fullName: '', email: '', password: '', confirmPassword: '' });
+    } catch (err) {
+      setError(err.response?.data?.message || 'Registration failed.');
+      setToast({ message: err.response?.data?.message || 'Registration failed.', type: 'error' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,7 +97,7 @@ export default function RegisterForm() {
           </div>
 
           {/* Form */}
-          <div className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {/* Full Name Input */}
             <div>
               <label htmlFor="fullName" className="block text-sm font-medium text-zinc-300 mb-2">
@@ -166,14 +223,19 @@ export default function RegisterForm() {
               </label>
             </div>
 
+            {/* Feedback messages */}
+            {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
+            {success && <div className="text-green-500 text-sm mb-2">{success}</div>}
+
             {/* Submit Button */}
             <button
-              onClick={handleSubmit}
+              type="submit"
+              disabled={loading}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-zinc-900"
             >
-              Create Account
+              {loading ? 'Creating Account...' : 'Create Account'}
             </button>
-          </div>
+          </form>
 
           {/* Divider */}
           <div className="mt-6">
@@ -212,6 +274,7 @@ export default function RegisterForm() {
           </p>
         </div>
       </div>
+      <Toast message={toast.message} type={toast.type} onClose={() => setToast({ message: '', type: '' })} />
     </div>
   );
 }
