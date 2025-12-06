@@ -1,0 +1,15 @@
+node_modules/
+.env
+*.log
+.DS_Store
+package-lock.json
+Client/node_modules/
+Server/node_modules/
+Client/.env
+Server/.env
+Client/package-lock.json
+Server/package-lock.json
+public/
+dist/
+coverage/
+.vscode/
