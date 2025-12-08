@@ -1,8 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 
 const CartDrawer = ({ open, onClose }) => {
   const { cart, dispatch } = useCart();
+  const navigate = useNavigate();
 
   return (
     <div
@@ -43,7 +45,7 @@ const CartDrawer = ({ open, onClose }) => {
               LKR {cart.items.reduce((sum, item) => sum + item.product.price * item.quantity, 0).toLocaleString('en-LK')}
             </span>
           </div>
-          <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition">Checkout</button>
+          <button className="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition" onClick={() => { onClose(); navigate('/checkout'); }}>Checkout</button>
         </div>
       )}
     </div>
