@@ -55,6 +55,13 @@ export default function LoginForm() {
         password
       });
       setToast({ message: res.data.message || 'Login successful!', type: 'success' });
+      // Store JWT token and user info
+      if (res.data.token) {
+        localStorage.setItem('token', res.data.token);
+      }
+      if (res.data.user) {
+        localStorage.setItem('user', JSON.stringify(res.data.user));
+      }
       // Set login state globally for Navbar
       if (window.setTrendoraLoggedIn) {
         window.setTrendoraLoggedIn(true);

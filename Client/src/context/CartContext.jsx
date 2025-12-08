@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useContext, useReducer, useEffect } from 'react';
+import axios from 'axios';
 
 const CartContext = createContext();
 
@@ -8,6 +9,8 @@ const initialState = {
 
 function cartReducer(state, action) {
   switch (action.type) {
+    case 'LOAD_CART':
+      return { ...state, items: action.payload };
     case 'ADD_ITEM': {
       const { product, size } = action.payload;
       // Check if item with same product and size exists
@@ -54,8 +57,72 @@ function cartReducer(state, action) {
 
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+
+  // Fetch cart from backend on login
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    console.log('Fetching cart from backend...');
+    axios.get('/api/cart', {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(res => {
+      console.log('Cart response:', res.data);
+      if (res.data.cart && res.data.cart.items) {
+        dispatch({ type: 'LOAD_CART', payload: res.data.cart.items });
+      }
+    }).catch((err) => { console.error('Cart fetch error:', err); });
+  }, []);
+
+  // Sync cart changes to backend
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    if (state.items.length > 0) {
+      console.log('Syncing cart to backend:', state.items);
+      axios.post('/api/cart/sync', { items: state.items }, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).catch((err) => { console.error('Cart sync error:', err); });
+    }
+  }, [state.items]);
+
+  // Add item to cart (backend)
+  async function addItemToCart(productId, quantity) {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    await axios.post('/api/cart/item', { productId, quantity }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
+
+  // Remove item from cart (backend)
+  async function removeItemFromCart(productId) {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    await axios.delete('/api/cart/item', {
+      headers: { Authorization: `Bearer ${token}` },
+      data: { productId }
+    });
+  }
+
+  // Clear cart (backend)
+  async function clearCartBackend() {
+    const token = localStorage.getItem('token');
+    if (!token) return;
+    await axios.delete('/api/cart/clear', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+  }
+
+  function enhancedDispatch(action) {
+    if (action.type === 'LOAD_CART') {
+      dispatch({ type: 'LOAD_CART', payload: action.payload });
+      return;
+    }
+    dispatch(action);
+  }
+
   return (
-    <CartContext.Provider value={{ cart: state, dispatch }}>
+    <CartContext.Provider value={{ cart: state, dispatch: enhancedDispatch }}>
       {children}
     </CartContext.Provider>
   );
