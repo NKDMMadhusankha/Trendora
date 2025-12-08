@@ -55,7 +55,7 @@ const ProductDetail = () => {
                   key={idx}
                   src={img}
                   alt={product.name + ' ' + idx}
-                  className={`w-16 h-16 object-cover rounded border cursor-pointer ${selectedImage === idx ? 'ring-2 ring-blue-500' : ''}`}
+                  className={`w-16 h-16 object-cover rounded border cursor-pointer ${selectedImage === idx ? 'ring-2 ring-black' : ''}`}
                   onClick={() => setSelectedImage(idx)}
                 />
               ))}
@@ -66,14 +66,14 @@ const ProductDetail = () => {
         <div>
           <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
           <p className="text-lg text-gray-600 mb-4">{product.description}</p>
-          <div className="text-2xl font-bold text-blue-700 mb-4">LKR {product.price?.toLocaleString('en-LK')}</div>
+          <div className="text-2xl font-bold text-black mb-4">LKR {product.price?.toLocaleString('en-LK')}</div>
           <div className="mb-4">
             <span className="font-semibold">Sizes:</span>
             <div className="flex gap-2 mt-2">
               {product.sizes?.map(size => (
                 <button
                   key={size}
-                  className={`px-3 py-1 rounded border font-semibold ${selectedSize === size ? 'bg-blue-600 text-white' : 'bg-white text-gray-800'}`}
+                  className={`px-3 py-1 rounded border font-semibold ${selectedSize === size ? 'bg-black text-white' : 'bg-white text-gray-800'}`}
                   onClick={() => setSelectedSize(size)}
                 >
                   {size}
@@ -85,7 +85,7 @@ const ProductDetail = () => {
             <span className="font-semibold">Category:</span> {product.category}
           </div>
           <button
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+            className="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition"
             disabled={!selectedSize}
             onClick={() => {
               if (!selectedSize) return;

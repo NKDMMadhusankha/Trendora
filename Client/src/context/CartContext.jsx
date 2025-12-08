@@ -95,12 +95,12 @@ export function CartProvider({ children }) {
   }
 
   // Remove item from cart (backend)
-  async function removeItemFromCart(productId) {
+  async function removeItemFromCart(productId, size) {
     const token = localStorage.getItem('token');
     if (!token) return;
     await axios.delete('/api/cart/item', {
       headers: { Authorization: `Bearer ${token}` },
-      data: { productId }
+      data: { productId, size }
     });
   }
 
@@ -122,7 +122,12 @@ export function CartProvider({ children }) {
   }
 
   return (
-    <CartContext.Provider value={{ cart: state, dispatch: enhancedDispatch }}>
+    <CartContext.Provider value={{
+      cart: state,
+      dispatch: enhancedDispatch,
+      removeItemFromCart,
+      clearCartBackend
+    }}>
       {children}
     </CartContext.Provider>
   );

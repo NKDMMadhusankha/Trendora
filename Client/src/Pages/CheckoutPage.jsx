@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function CheckoutPage() {
-  const { cart, dispatch } = useCart();
+  const { cart, dispatch, clearCartBackend } = useCart();
   const [user, setUser] = useState(null);
   const [orderDate, setOrderDate] = useState(new Date());
   const [notification, setNotification] = useState({ show: false, message: '', type: '' });
@@ -27,6 +27,7 @@ export default function CheckoutPage() {
       }, {
         headers: { Authorization: `Bearer ${token}` }
       });
+      await clearCartBackend();
       dispatch({ type: 'CLEAR_CART' });
       setNotification({ show: true, message: 'Order placed successfully! Check your email for confirmation.', type: 'success' });
       setTimeout(() => navigate('/'), 2000);
@@ -40,7 +41,7 @@ export default function CheckoutPage() {
       {/* Custom Notification */}
       {notification.show && (
         <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-6 py-4 rounded-lg shadow-2xl transition-all duration-300 ${
-          notification.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+          notification.type === 'success' ? 'bg-black text-white' : 'bg-red-500 text-white'
         }`}>
           <div className="flex items-center gap-3">
             {notification.type === 'success' ? (
@@ -68,18 +69,27 @@ export default function CheckoutPage() {
       </div>
       <div className="mb-4">
         <strong>Items Purchased:</strong>
-        <ul className="list-disc ml-6">
+        <div className="mt-3 space-y-3">
           {cart.items.map((item, idx) => (
-            <li key={idx}>
-              {item.product.name} - Size: {item.size} - Qty: {item.quantity} - Price: ${item.product.price * item.quantity}
-            </li>
+            <div key={idx} className="flex items-center gap-4 bg-gray-50 p-3 rounded-lg">
+              <img 
+                src={item.product.imageUrl} 
+                alt={item.product.name} 
+                className="w-20 h-20 object-cover rounded"
+              />
+              <div className="flex-1">
+                <p className="font-medium text-gray-900">{item.product.name}</p>
+                <p className="text-sm text-gray-600">Size: {item.size} • Qty: {item.quantity}</p>
+                <p className="text-sm font-semibold text-gray-900 mt-1">LKR {item.product.price * item.quantity}</p>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
       <div className="mb-4">
-        <strong>Total Price:</strong> ${totalPrice}
+        <strong>Total Price:</strong> LKR {totalPrice}
       </div>
-      <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={handlePlaceOrder}>
+      <button className="bg-black text-white px-4 py-2 rounded hover:bg-gray-900 transition" onClick={handlePlaceOrder}>
         Place Order
       </button>
     </div>
