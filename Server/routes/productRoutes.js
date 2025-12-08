@@ -8,6 +8,8 @@ const productController = require('../controllers/productController');
 router.post('/upload', upload.single('image'), productController.uploadImage);
 router.post('/', productController.createProduct);
 router.get('/', productController.getProducts);
+
+router.get('/:id', productController.getProductById);
 router.delete('/:id', productController.deleteProduct);
 
 module.exports = router;

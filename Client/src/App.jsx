@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+
 import HomePage from './Pages/HomePage'
 import MensPage from './Pages/MensPage'
 import WomensPage from './Pages/WomensPage'
@@ -7,6 +8,7 @@ import toast from 'react-hot-toast'
 import Register from './Components/Register'
 import ProductManagement from './Pages/ProductManagement'
 import Search from './Pages/Search';
+import ProductDetail from './Pages/ProductDetail';
 
 const App = () => {
   return (
@@ -19,6 +21,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/admin/products" element={<ProductManagement />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/product/:id" element={<ProductDetail />} />
       </Routes>
     </div>
   )

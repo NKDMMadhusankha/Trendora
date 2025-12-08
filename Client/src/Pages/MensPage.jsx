@@ -3,6 +3,7 @@ import { SlidersHorizontal, X, ChevronRight } from 'lucide-react';
 import axios from 'axios';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
+import { useNavigate } from 'react-router-dom';
 
 const MensPage = () => {
   const [filters, setFilters] = useState({
@@ -18,6 +19,7 @@ const MensPage = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts();
@@ -276,6 +278,7 @@ const MensPage = () => {
                 <div
                   key={product.id}
                   className="group cursor-pointer shadow-md hover:shadow-xl transition-shadow duration-300 rounded-lg overflow-hidden"
+                  onClick={() => navigate(`/product/${product.id}`)}
                 >
                   <div className="relative aspect-[3/4] bg-slate-100">
                     <img
@@ -291,7 +294,6 @@ const MensPage = () => {
                       </div>
                     )}
                   </div>
-                  
                   <div className="p-3">
                     <div className="flex items-center justify-between mb-1">
                       <h3 className="font-semibold text-slate-900 text-sm group-hover:underline truncate">
