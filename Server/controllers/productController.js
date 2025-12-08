@@ -59,18 +59,17 @@ exports.getProducts = async (req, res) => {
     }
     let products = [];
     if (search) {
-      // Phrase or word match in name
-      const isSingleWord = search.trim().split(' ').length === 1;
-      let regex;
-      if (isSingleWord) {
-        regex = new RegExp(`\\b${search}\\b`, 'i');
-      } else {
-        regex = new RegExp(search, 'i');
-      }
-      products = await Product.find({ ...query, name: { $regex: regex } });
-      // Fallback to partial match if no results
+      // 1. Try whole word/phrase match in name
+      const normalizedSearch = search.trim();
+      const regexPhrase = new RegExp(`\\b${normalizedSearch}\\b`, 'i');
+      products = await Product.find({ ...query, name: { $regex: regexPhrase } });
+      // 2. Fallback: partial match in name
       if (products.length === 0) {
-        products = await Product.find({ ...query, name: { $regex: search, $options: 'i' } });
+        products = await Product.find({ ...query, name: { $regex: normalizedSearch, $options: 'i' } });
+      }
+      // 3. Fallback: partial match in description
+      if (products.length === 0) {
+        products = await Product.find({ ...query, description: { $regex: normalizedSearch, $options: 'i' } });
       }
     } else {
       products = await Product.find(query);

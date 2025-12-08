@@ -2,6 +2,77 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+// Modern Popup Component
+const ModernPopup = ({ show, type, message, onClose, onConfirm }) => {
+  if (!show) return null;
+
+  const getTypeStyles = () => {
+    switch (type) {
+      case 'success':
+        return 'bg-green-500';
+      case 'error':
+        return 'bg-red-500';
+      case 'confirm':
+        return 'bg-orange-500';
+      default:
+        return 'bg-blue-500';
+    }
+  };
+
+  const getIcon = () => {
+    switch (type) {
+      case 'success':
+        return '✓';
+      case 'error':
+        return '✕';
+      case 'confirm':
+        return '?';
+      default:
+        return 'i';
+    }
+  };
+
+  return (
+    <>
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center" onClick={type !== 'confirm' ? onClose : undefined}>
+        <div className="bg-white rounded-2xl shadow-2xl p-6 max-w-md w-full mx-4 transform transition-all" onClick={(e) => e.stopPropagation()}>
+          <div className="flex flex-col items-center">
+            <div className={`${getTypeStyles()} w-16 h-16 rounded-full flex items-center justify-center text-white text-3xl font-bold mb-4`}>
+              {getIcon()}
+            </div>
+            <p className="text-gray-800 text-center text-lg font-medium mb-6">{message}</p>
+            <div className="flex gap-3 w-full">
+              {type === 'confirm' ? (
+                <>
+                  <button
+                    onClick={onConfirm}
+                    className="flex-1 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                  >
+                    Yes
+                  </button>
+                  <button
+                    onClick={onClose}
+                    className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                  >
+                    No
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={onClose}
+                  className={`flex-1 ${getTypeStyles()} hover:opacity-90 text-white font-semibold py-3 px-6 rounded-lg transition-opacity duration-200`}
+                >
+                  OK
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
@@ -22,6 +93,7 @@ const ProductManagement = () => {
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [editingId, setEditingId] = useState(null);
+  const [popup, setPopup] = useState({ show: false, type: '', message: '', onConfirm: null });
 
   useEffect(() => {
     fetchProducts();
@@ -88,27 +160,42 @@ const ProductManagement = () => {
       });
       setImagePreview(null);
       fetchProducts();
-      alert('Product added successfully!');
+      setPopup({ show: true, type: 'success', message: 'Product added successfully!', onConfirm: null });
     } catch (err) {
-      alert('Failed to add product: ' + err.message);
+      setPopup({ show: true, type: 'error', message: 'Failed to add product: ' + err.message, onConfirm: null });
     } finally {
       setSubmitting(false);
     }
   };
 
   const handleDelete = async (id) => {
-    if (!confirm('Are you sure you want to delete this product?')) return;
-    try {
-      await axios.delete(`/api/products/${id}`);
-      fetchProducts();
-      alert('Product deleted successfully!');
-    } catch (err) {
-      alert('Failed to delete product: ' + err.message);
-    }
+    setPopup({
+      show: true,
+      type: 'confirm',
+      message: 'Are you sure you want to delete this product?',
+      onConfirm: async () => {
+        setPopup({ show: false, type: '', message: '', onConfirm: null });
+        try {
+          await axios.delete(`/api/products/${id}`);
+          fetchProducts();
+          setPopup({ show: true, type: 'success', message: 'Product deleted successfully!', onConfirm: null });
+        } catch (err) {
+          setPopup({ show: true, type: 'error', message: 'Failed to delete product: ' + err.message, onConfirm: null });
+        }
+      }
+    });
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <>
+      <ModernPopup
+        show={popup.show}
+        type={popup.type}
+        message={popup.message}
+        onClose={() => setPopup({ show: false, type: '', message: '', onConfirm: null })}
+        onConfirm={popup.onConfirm}
+      />
+      <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8 flex items-center justify-between">
           <div>
@@ -297,6 +384,7 @@ const ProductManagement = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
