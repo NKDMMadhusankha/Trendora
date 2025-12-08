@@ -1,3 +1,12 @@
+exports.getMyOrders = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const orders = await Order.find({ user: userId }).populate('items.product').sort({ orderDate: -1 });
+    res.json({ orders });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch orders.' });
+  }
+};
 const Order = require('../models/Order');
 const User = require('../models/User');
 const sendOrderConfirmationEmail = require('../utils/sendOrderConfirmationEmail');

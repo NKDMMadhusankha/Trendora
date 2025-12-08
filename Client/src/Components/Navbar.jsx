@@ -197,7 +197,13 @@ const Navbar = () => {
                 </button>
                 {/* Dropdown for Log Out only if logged in */}
                 {isLoggedIn && showProfileDropdown && (
-                  <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-full min-w-[8rem] max-w-[12rem] bg-gray-800 border border-transparent rounded-lg shadow-lg py-2 z-50 flex justify-center">
+                  <div className="absolute left-1/2 -translate-x-1/2 mt-2 w-full min-w-[8rem] max-w-[12rem] bg-gray-800 border border-transparent rounded-lg shadow-lg py-2 z-50 flex flex-col items-center">
+                    <button
+                      onClick={() => { setShowProfileDropdown(false); navigate('/account'); }}
+                      className="w-full max-w-xs text-left px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 font-semibold text-sm rounded mb-2"
+                    >
+                      My account
+                    </button>
                     <button
                       onClick={() => { setShowProfileDropdown(false); handleLogout(); }}
                       className="w-full max-w-xs text-left px-4 py-2 bg-red-600 text-white hover:bg-red-700 font-semibold text-sm rounded"

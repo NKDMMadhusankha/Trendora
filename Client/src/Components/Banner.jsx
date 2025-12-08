@@ -31,7 +31,7 @@ const Banner = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
-      className="relative w-full h-[610px] md:h-[710px] lg:h-[810px] bg-black overflow-hidden"
+      className="relative w-full h-[640px] md:h-[740px] lg:h-[840px] bg-black overflow-hidden"
     >
       {/* Left side - Black background (visible through the clipped image) */}
       <div className="absolute inset-0 bg-black"></div>

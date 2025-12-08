@@ -7,6 +7,7 @@ export default function CheckoutPage() {
   const { cart, dispatch } = useCart();
   const [user, setUser] = useState(null);
   const [orderDate, setOrderDate] = useState(new Date());
+  const [notification, setNotification] = useState({ show: false, message: '', type: '' });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,14 +28,34 @@ export default function CheckoutPage() {
         headers: { Authorization: `Bearer ${token}` }
       });
       dispatch({ type: 'CLEAR_CART' });
-      alert('Order placed!');
-      navigate('/');
+      setNotification({ show: true, message: 'Order placed successfully! Check your email for confirmation.', type: 'success' });
+      setTimeout(() => navigate('/'), 2000);
     } catch (err) {
-      alert('Order failed.');
+      setNotification({ show: true, message: 'Order failed. Please try again.', type: 'error' });
     }
   };
 
   return (
+    <>
+      {/* Custom Notification */}
+      {notification.show && (
+        <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 px-6 py-4 rounded-lg shadow-2xl transition-all duration-300 ${
+          notification.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+        }`}>
+          <div className="flex items-center gap-3">
+            {notification.type === 'success' ? (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            )}
+            <span className="font-medium">{notification.message}</span>
+          </div>
+        </div>
+      )}
     <div className="max-w-2xl mx-auto p-6 bg-white rounded shadow mt-8">
       <h2 className="text-2xl font-bold mb-4">Checkout</h2>
       {user && (
@@ -62,5 +83,6 @@ export default function CheckoutPage() {
         Place Order
       </button>
     </div>
+    </>
   );
 }

@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import HomePage from './Pages/HomePage'
+import AccountPage from './Pages/AccountPage'
 import CheckoutPage from './Pages/CheckoutPage'
 import MensPage from './Pages/MensPage'
 import WomensPage from './Pages/WomensPage'
@@ -24,6 +25,7 @@ const App = () => {
         <Route path="/search" element={<Search />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/account" element={<AccountPage />} />
       </Routes>
     </div>
   )
