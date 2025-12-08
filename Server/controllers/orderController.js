@@ -1,4 +1,6 @@
 const Order = require('../models/Order');
+const User = require('../models/User');
+const sendOrderConfirmationEmail = require('../utils/sendOrderConfirmationEmail');
 
 exports.createOrder = async (req, res) => {
   try {
@@ -18,6 +20,18 @@ exports.createOrder = async (req, res) => {
       orderDate: orderDate || Date.now(),
     });
     await order.save();
+
+    // Fetch user email
+    const user = await User.findById(userId);
+    if (user && user.email) {
+      // Populate product names for email
+      await order.populate('items.product');
+      await sendOrderConfirmationEmail({
+        to: user.email,
+        order,
+      });
+    }
+
     res.status(201).json({ message: 'Order placed successfully!', order });
   } catch (err) {
     res.status(500).json({ error: 'Failed to place order.' });
