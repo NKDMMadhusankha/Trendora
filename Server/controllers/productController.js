@@ -61,35 +61,30 @@ exports.createProduct = async (req, res) => {
 
 exports.getProducts = async (req, res) => {
   try {
-    const { category, search } = req.query;
-    // Build query based on filters
+    const { category, search, page = 1, limit = 10 } = req.query;
     const query = {};
-    if (category) {
-      query.category = category;
-    }
-    
-    let products = [];
-    
+    if (category) query.category = category;
+
+    let mongoQuery;
     if (search) {
       const normalizedSearch = search.trim();
       const escapedSearch = normalizedSearch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      
-      // Priority 1: Exact phrase match in name (most relevant)
-      products = await Product.find({
+      mongoQuery = Product.find({
         ...query,
-        name: { $regex: escapedSearch, $options: 'i' }
+        $or: [
+          { name: { $regex: escapedSearch, $options: 'i' } },
+          { description: { $regex: escapedSearch, $options: 'i' } }
+        ]
       });
-      
-      // Priority 2: If no exact phrase match, try in description
-      if (products.length === 0) {
-        products = await Product.find({
-          ...query,
-          description: { $regex: escapedSearch, $options: 'i' }
-        });
-      }
     } else {
-      products = await Product.find(query);
+      mongoQuery = Product.find(query);
     }
+
+    const total = await Product.countDocuments(mongoQuery.getQuery());
+    const products = await mongoQuery
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
     // Generate signed URLs for each product image
     const productsWithSignedUrls = products.map(product => {
       const productObj = product.toObject();
@@ -108,7 +103,12 @@ exports.getProducts = async (req, res) => {
       }
       return productObj;
     });
-    res.json({ products: productsWithSignedUrls });
+    res.json({
+      products: productsWithSignedUrls,
+      total,
+      page: Number(page),
+      pages: Math.ceil(total / limit)
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

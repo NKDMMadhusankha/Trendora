@@ -84,13 +84,6 @@ const HomePage = () => {
             </div>
           )}
 
-          {/* View Collection Button */}
-          <div className="flex justify-left mt-12">
-            <button className="bg-black text-white px-10 py-3 rounded-lg font-bold text-lg flex items-center gap-2">
-              View Collection
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
         </div>
 
         <Category />
