@@ -1,10 +1,15 @@
 import React, { useState, useRef } from 'react';
+import CartDrawer from './CartDrawer';
+import { useCart } from '../context/CartContext';
 import { Search, ShoppingCart, User, Menu, X, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import Logo from '../Images/Logo.png';
 
 const Navbar = () => {
+  const { cart } = useCart();
+  const cartCount = cart.items.reduce((sum, item) => sum + item.quantity, 0);
+  const [cartOpen, setCartOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeMegaMenu, setActiveMegaMenu] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
@@ -203,10 +208,10 @@ const Navbar = () => {
                 )}
               </div>
             </div>
-            <button className="text-gray-800 hover:text-gray-600 transition-colors relative">
+            <button className="text-gray-800 hover:text-gray-600 transition-colors relative" onClick={() => setCartOpen(true)}>
               <ShoppingCart className="w-5 h-5" />
               <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                0
+                {cartCount}
               </span>
             </button>
           </div>
@@ -216,10 +221,10 @@ const Navbar = () => {
             <button className="text-gray-800">
               <Search className="w-5 h-5" />
             </button>
-            <button className="text-gray-800 relative">
+            <button className="text-gray-800 relative" onClick={() => setCartOpen(true)}>
               <ShoppingCart className="w-5 h-5" />
               <span className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                0
+                {cartCount}
               </span>
             </button>
             <button
@@ -232,6 +237,8 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Cart Drawer Popup */}
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
       {/* Mega Menu Desktop */}
       <AnimatePresence>
         {activeMegaMenu && (

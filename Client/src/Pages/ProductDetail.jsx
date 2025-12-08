@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useCart } from '../context/CartContext';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
+import CartDrawer from '../Components/CartDrawer';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -10,6 +12,9 @@ const ProductDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [selectedSize, setSelectedSize] = useState('');
+  const { dispatch } = useCart();
+  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -63,13 +68,33 @@ const ProductDetail = () => {
           <p className="text-lg text-gray-600 mb-4">{product.description}</p>
           <div className="text-2xl font-bold text-blue-700 mb-4">LKR {product.price?.toLocaleString('en-LK')}</div>
           <div className="mb-4">
-            <span className="font-semibold">Sizes:</span> {product.sizes?.join(', ')}
+            <span className="font-semibold">Sizes:</span>
+            <div className="flex gap-2 mt-2">
+              {product.sizes?.map(size => (
+                <button
+                  key={size}
+                  className={`px-3 py-1 rounded border font-semibold ${selectedSize === size ? 'bg-blue-600 text-white' : 'bg-white text-gray-800'}`}
+                  onClick={() => setSelectedSize(size)}
+                >
+                  {size}
+                </button>
+              ))}
+            </div>
           </div>
           <div className="mb-4">
             <span className="font-semibold">Category:</span> {product.category}
           </div>
-          {/* Add to Cart button placeholder */}
-          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition">Add to Cart</button>
+          <button
+            className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
+            disabled={!selectedSize}
+            onClick={() => {
+              if (!selectedSize) return;
+              dispatch({ type: 'ADD_ITEM', payload: { product, size: selectedSize } });
+              setCartOpen(true);
+            }}
+          >
+            {selectedSize ? 'Add to Cart' : 'Select Size'}
+          </button>
         </div>
       </div>
       {/* Reviews Section */}
@@ -80,6 +105,7 @@ const ProductDetail = () => {
           <p className="text-gray-500">No reviews yet. Be the first to review this product!</p>
         </div>
       </div>
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
       <Footer />
     </div>
   );
