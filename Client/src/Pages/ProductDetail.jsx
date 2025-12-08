@@ -41,82 +41,157 @@ const ProductDetail = () => {
   const images = product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls : [product.imageUrl];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Navbar />
-      <div className="max-w-5xl mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-2 gap-10">
-        {/* Images */}
-        <div>
-          <div className="aspect-square bg-white rounded-lg overflow-hidden flex items-center justify-center border">
-            <img src={images[selectedImage]} alt={product.name} className="object-contain w-full h-full" />
-          </div>
-          {images.length > 1 && (
-            <div className="flex gap-2 mt-4">
-              {images.map((img, idx) => (
-                <img
-                  key={idx}
-                  src={img}
-                  alt={product.name + ' ' + idx}
-                  className={`w-16 h-16 object-cover rounded border cursor-pointer ${selectedImage === idx ? 'ring-2 ring-black' : ''}`}
-                  onClick={() => setSelectedImage(idx)}
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+          {/* Images Section - 7 columns */}
+          <div className="lg:col-span-7">
+            <div className="sticky top-8 space-y-4">
+              <div className="relative aspect-square bg-gradient-to-br from-gray-100 to-gray-50 rounded-2xl overflow-hidden group">
+                <img 
+                  src={images[selectedImage]} 
+                  alt={product.name} 
+                  className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700 ease-out" 
                 />
-              ))}
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-colors duration-500"></div>
+              </div>
+              {images.length > 1 && (
+                <div className="grid grid-cols-4 gap-3">
+                  {images.map((img, idx) => (
+                    <div
+                      key={idx}
+                      className={`relative aspect-square rounded-xl overflow-hidden cursor-pointer transition-all duration-300 ${
+                        selectedImage === idx 
+                          ? 'ring-2 ring-gray-900 ring-offset-2 scale-95' 
+                          : 'hover:scale-95 opacity-70 hover:opacity-100'
+                      }`}
+                      onClick={() => setSelectedImage(idx)}
+                    >
+                      <img
+                        src={img}
+                        alt={`${product.name} ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
-        </div>
-        {/* Details */}
-        <div>
-          <h1 className="text-3xl font-bold mb-2">{product.name}</h1>
-          <p className="text-lg text-gray-600 mb-4">{product.description}</p>
-          <div className="text-2xl font-bold text-black mb-4">LKR {product.price?.toLocaleString('en-LK')}</div>
-          <div className="mb-4">
-            <span className="font-semibold">Sizes:</span>
-            <div className="flex gap-2 mt-2">
-              {product.sizes?.map(size => (
+          </div>
+
+          {/* Product Details Section - 5 columns */}
+          <div className="lg:col-span-5">
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="space-y-3">
+                <div className="inline-flex items-center px-3 py-1.5 bg-gray-100 rounded-full">
+                  <span className="text-xs font-medium text-gray-700 uppercase tracking-wider">
+                    {product.category}
+                  </span>
+                </div>
+                <h1 className="text-3xl font-bold text-gray-900 leading-tight tracking-tight">
+                  {product.name}
+                </h1>
+              </div>
+
+              {/* Price */}
+              <div className="flex items-baseline gap-2">
+                <span className="text-3xl font-bold text-gray-900">
+                  LKR {product.price?.toLocaleString('en-LK')}
+                </span>
+                <span className="text-xs text-gray-500">Incl. taxes</span>
+              </div>
+
+              {/* Description */}
+              <p className="text-sm text-gray-600 leading-relaxed">
+                {product.description}
+              </p>
+
+              {/* Divider */}
+              <div className="border-t border-gray-200"></div>
+
+              {/* Size Selection */}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-xs font-bold text-gray-900 uppercase tracking-wider">
+                    Select Size
+                  </h3>
+                  {selectedSize && (
+                    <span className="text-xs text-gray-500">
+                      Selected: <span className="font-bold text-gray-900">{selectedSize}</span>
+                    </span>
+                  )}
+                </div>
+                <div className="grid grid-cols-5 gap-2">
+                  {product.sizes?.map(size => (
+                    <button
+                      key={size}
+                      className={`h-11 flex items-center justify-center text-xs font-bold rounded-lg transition-all duration-300 ${
+                        selectedSize === size
+                          ? 'bg-gray-900 text-white shadow-lg scale-105'
+                          : 'bg-white text-gray-900 border-2 border-gray-200 hover:border-gray-900 hover:scale-105'
+                      }`}
+                      onClick={() => setSelectedSize(size)}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div className="border-t border-gray-200"></div>
+
+              {/* Action Buttons */}
+              <div className="space-y-3">
                 <button
-                  key={size}
-                  className={`px-3 py-1 rounded border font-semibold ${selectedSize === size ? 'bg-black text-white' : 'bg-white text-gray-800'}`}
-                  onClick={() => setSelectedSize(size)}
+                  className="w-full bg-gray-900 text-white px-6 py-3.5 rounded-xl font-bold text-sm uppercase tracking-wide hover:bg-gray-800 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-gray-900 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
+                  disabled={!selectedSize}
+                  onClick={() => {
+                    if (!selectedSize) return;
+                    dispatch({ type: 'ADD_ITEM', payload: { product, size: selectedSize } });
+                    setCartOpen(true);
+                  }}
                 >
-                  {size}
+                  {selectedSize ? 'Add to Cart' : 'Please Select a Size'}
                 </button>
-              ))}
+                <button
+                  className="w-full bg-white text-gray-900 px-6 py-3.5 rounded-xl font-bold text-sm uppercase tracking-wide border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-900"
+                  disabled={!selectedSize}
+                  onClick={() => {
+                    if (!selectedSize) return;
+                    dispatch({ type: 'ADD_ITEM', payload: { product, size: selectedSize } });
+                    setTimeout(() => navigate('/checkout'), 100);
+                  }}
+                >
+                  Buy Now
+                </button>
+              </div>
+
+              {/* Additional Info */}
+              <div className="pt-4 space-y-2 text-xs text-gray-600">
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Free shipping on orders over LKR 5,000</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Easy returns within 30 days</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>Authentic products guaranteed</span>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="mb-4">
-            <span className="font-semibold">Category:</span> {product.category}
-          </div>
-          <div className="flex gap-4">
-            <button
-              className="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition"
-              disabled={!selectedSize}
-              onClick={() => {
-                if (!selectedSize) return;
-                dispatch({ type: 'ADD_ITEM', payload: { product, size: selectedSize } });
-                setCartOpen(true);
-              }}
-            >
-              {selectedSize ? 'Add to Cart' : 'Select Size'}
-            </button>
-            <button
-              className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition"
-              disabled={!selectedSize}
-              onClick={() => {
-                if (!selectedSize) return;
-                dispatch({ type: 'ADD_ITEM', payload: { product, size: selectedSize } });
-                setTimeout(() => navigate('/checkout'), 100);
-              }}
-            >
-              Buy Now
-            </button>
-          </div>
-        </div>
-      </div>
-      {/* Reviews Section */}
-      <div className="max-w-3xl mx-auto px-4 pb-16">
-        <h2 className="text-2xl font-bold mb-4">Reviews</h2>
-        {/* Placeholder for reviews */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <p className="text-gray-500">No reviews yet. Be the first to review this product!</p>
         </div>
       </div>
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
