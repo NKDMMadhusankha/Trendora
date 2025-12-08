@@ -49,8 +49,8 @@ export default function AccountPage() {
                   {/* Order Header */}
                   <div className="flex justify-between items-start mb-4 pb-4 border-b border-gray-100">
                     <div>
-                      <p className="text-xs text-gray-500 mb-1">Order ID</p>
-                      <p className="text-sm font-mono text-gray-900">{order._id}</p>
+                      <p className="text-xs text-gray-500 mb-1">Order Number</p>
+                      <p className="text-lg font-bold text-blue-600">{order.orderNumber || order._id}</p>
                     </div>
                     <div className="text-right">
                       <p className="text-xs text-gray-500 mb-1">Date</p>

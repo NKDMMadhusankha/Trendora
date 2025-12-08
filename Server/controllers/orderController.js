@@ -30,18 +30,19 @@ exports.createOrder = async (req, res) => {
     });
     await order.save();
 
+    // Refetch order to ensure orderNumber is present
+    const savedOrder = await Order.findById(order._id).populate('items.product');
+
     // Fetch user email
     const user = await User.findById(userId);
     if (user && user.email) {
-      // Populate product names for email
-      await order.populate('items.product');
       await sendOrderConfirmationEmail({
         to: user.email,
-        order,
+        order: savedOrder,
       });
     }
 
-    res.status(201).json({ message: 'Order placed successfully!', order });
+    res.status(201).json({ message: 'Order placed successfully!', order: savedOrder });
   } catch (err) {
     res.status(500).json({ error: 'Failed to place order.' });
   }

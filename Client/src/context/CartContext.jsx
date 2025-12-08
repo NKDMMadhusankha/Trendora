@@ -70,11 +70,34 @@ function cartReducer(state, action) {
 
 export function CartProvider({ children }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+  const [isInitialLoad, setIsInitialLoad] = React.useState(true);
+  const [currentToken, setCurrentToken] = React.useState(localStorage.getItem('token'));
 
-  // Fetch cart from backend on login
+  // Poll for token changes (login/logout detection)
+  useEffect(() => {
+    const checkTokenChange = setInterval(() => {
+      const token = localStorage.getItem('token');
+      if (token !== currentToken) {
+        console.log('Token changed, reloading cart...');
+        setCurrentToken(token);
+      }
+    }, 500);
+    
+    return () => clearInterval(checkTokenChange);
+  }, [currentToken]);
+
+  // Fetch cart from backend on login or when token changes
   useEffect(() => {
     const token = localStorage.getItem('token');
-    if (!token) return;
+    
+    // Clear cart if logged out
+    if (!token) {
+      console.log('No token found, clearing cart...');
+      dispatch({ type: 'CLEAR_CART' });
+      setIsInitialLoad(false);
+      return;
+    }
+    
     console.log('Fetching cart from backend...');
     axios.get('/api/cart', {
       headers: { Authorization: `Bearer ${token}` }
@@ -92,17 +115,27 @@ export function CartProvider({ children }) {
         });
         console.log('Valid cart items to load:', validItems);
         dispatch({ type: 'LOAD_CART', payload: validItems });
+      } else {
+        // If no cart exists, ensure state is empty
+        dispatch({ type: 'LOAD_CART', payload: [] });
       }
+      setIsInitialLoad(false);
     }).catch((err) => { 
       console.error('Cart fetch error:', err);
       if (err.response) {
         console.error('Error response:', err.response.data);
       }
+      // Clear cart on error (e.g., invalid token)
+      dispatch({ type: 'CLEAR_CART' });
+      setIsInitialLoad(false);
     });
-  }, []);
+  }, [currentToken]);
 
   // Sync cart changes to backend
   useEffect(() => {
+    // Skip syncing during initial load to prevent overwriting backend cart
+    if (isInitialLoad) return;
+    
     const token = localStorage.getItem('token');
     if (!token) return;
     
@@ -123,7 +156,7 @@ export function CartProvider({ children }) {
         headers: { Authorization: `Bearer ${token}` }
       }).catch((err) => { console.error('Cart sync error:', err); });
     }
-  }, [state.items]);
+  }, [state.items, isInitialLoad]);
 
   // Add item to cart (backend)
   async function addItemToCart(productId, quantity) {
