@@ -57,19 +57,25 @@ exports.getProducts = async (req, res) => {
     if (category) {
       query.category = category;
     }
+    
     let products = [];
+    
     if (search) {
-      // 1. Try whole word/phrase match in name
       const normalizedSearch = search.trim();
-      const regexPhrase = new RegExp(`\\b${normalizedSearch}\\b`, 'i');
-      products = await Product.find({ ...query, name: { $regex: regexPhrase } });
-      // 2. Fallback: partial match in name
+      const escapedSearch = normalizedSearch.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      
+      // Priority 1: Exact phrase match in name (most relevant)
+      products = await Product.find({
+        ...query,
+        name: { $regex: escapedSearch, $options: 'i' }
+      });
+      
+      // Priority 2: If no exact phrase match, try in description
       if (products.length === 0) {
-        products = await Product.find({ ...query, name: { $regex: normalizedSearch, $options: 'i' } });
-      }
-      // 3. Fallback: partial match in description
-      if (products.length === 0) {
-        products = await Product.find({ ...query, description: { $regex: normalizedSearch, $options: 'i' } });
+        products = await Product.find({
+          ...query,
+          description: { $regex: escapedSearch, $options: 'i' }
+        });
       }
     } else {
       products = await Product.find(query);
