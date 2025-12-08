@@ -178,7 +178,7 @@ const products = [
     name: 'Elegant Blouse',
     description: 'Sophisticated blouse with delicate details. Perfect for office or evening wear.',
     price: 2999,
-    imageUrl: 'https://images.unsplash.com/photo-1564257577154-75f0d06b881e?w=500',
+    imageUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=500', // Updated to a valid Unsplash blouse image
     category: 'Women',
     sizes: ['S', 'M', 'L', 'XL']
   },
