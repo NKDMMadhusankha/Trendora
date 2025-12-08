@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { ShoppingBag, User, Calendar, CreditCard, Package } from 'lucide-react';
+import { ShoppingBag, User, Calendar, CreditCard, Package, ArrowLeft } from 'lucide-react';
 
 export default function CheckoutPage() {
   const { cart, dispatch, clearCartBackend } = useCart();
@@ -88,6 +88,15 @@ export default function CheckoutPage() {
 
       <div className="min-h-screen py-16 px-4">
         <div className="max-w-6xl mx-auto w-full">
+          {/* Back Button */}
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-gray-700 hover:text-gray-900 mb-6 font-medium transition-colors"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            <span>Back</span>
+          </button>
+
           <div className="bg-white rounded-3xl overflow-hidden border border-gray-200">
             {/* Header */}
             <div className="bg-gray-50 px-8 py-10 border-b border-gray-200">
