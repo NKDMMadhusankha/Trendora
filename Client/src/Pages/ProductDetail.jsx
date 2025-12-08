@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useCart } from '../context/CartContext';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
@@ -8,13 +8,14 @@ import CartDrawer from '../Components/CartDrawer';
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const { dispatch } = useCart();
+  const [cartOpen, setCartOpen] = useState(false);
+  const [selectedSize, setSelectedSize] = useState('');
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedSize, setSelectedSize] = useState('');
-  const { dispatch } = useCart();
-  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -84,17 +85,30 @@ const ProductDetail = () => {
           <div className="mb-4">
             <span className="font-semibold">Category:</span> {product.category}
           </div>
-          <button
-            className="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition"
-            disabled={!selectedSize}
-            onClick={() => {
-              if (!selectedSize) return;
-              dispatch({ type: 'ADD_ITEM', payload: { product, size: selectedSize } });
-              setCartOpen(true);
-            }}
-          >
-            {selectedSize ? 'Add to Cart' : 'Select Size'}
-          </button>
+          <div className="flex gap-4">
+            <button
+              className="bg-black text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-900 transition"
+              disabled={!selectedSize}
+              onClick={() => {
+                if (!selectedSize) return;
+                dispatch({ type: 'ADD_ITEM', payload: { product, size: selectedSize } });
+                setCartOpen(true);
+              }}
+            >
+              {selectedSize ? 'Add to Cart' : 'Select Size'}
+            </button>
+            <button
+              className="bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition"
+              disabled={!selectedSize}
+              onClick={() => {
+                if (!selectedSize) return;
+                dispatch({ type: 'ADD_ITEM', payload: { product, size: selectedSize } });
+                setTimeout(() => navigate('/checkout'), 100);
+              }}
+            >
+              Buy Now
+            </button>
+          </div>
         </div>
       </div>
       {/* Reviews Section */}
