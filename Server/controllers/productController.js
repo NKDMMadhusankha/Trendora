@@ -51,39 +51,48 @@ exports.createProduct = async (req, res) => {
 
 exports.getProducts = async (req, res) => {
   try {
-    const { category } = req.query;
-    
+    const { category, search } = req.query;
     // Build query based on filters
     const query = {};
     if (category) {
       query.category = category;
     }
-    
-    const products = await Product.find(query);
-    
+    let products = [];
+    if (search) {
+      // Phrase or word match in name
+      const isSingleWord = search.trim().split(' ').length === 1;
+      let regex;
+      if (isSingleWord) {
+        regex = new RegExp(`\\b${search}\\b`, 'i');
+      } else {
+        regex = new RegExp(search, 'i');
+      }
+      products = await Product.find({ ...query, name: { $regex: regex } });
+      // Fallback to partial match if no results
+      if (products.length === 0) {
+        products = await Product.find({ ...query, name: { $regex: search, $options: 'i' } });
+      }
+    } else {
+      products = await Product.find(query);
+    }
     // Generate signed URLs for each product image
     const productsWithSignedUrls = products.map(product => {
       const productObj = product.toObject();
       if (productObj.imageUrl) {
-        // Check if it's an S3 URL or external URL (like Unsplash)
         if (productObj.imageUrl.includes(process.env.AWS_S3_BUCKET)) {
-          // Extract the S3 key from the URL
           const urlParts = productObj.imageUrl.split('.com/');
           if (urlParts.length > 1) {
             const key = urlParts[1];
-            // Generate a signed URL valid for 1 hour
             productObj.imageUrl = s3.getSignedUrl('getObject', {
               Bucket: process.env.AWS_S3_BUCKET,
               Key: key,
-              Expires: 3600 // 1 hour
+              Expires: 3600
             });
           }
         }
-        // If it's an external URL (Unsplash), leave it as is
       }
       return productObj;
     });
-    
     res.json({ products: productsWithSignedUrls });
   } catch (err) {
     res.status(500).json({ error: err.message });

@@ -52,7 +52,7 @@ const MensPage = () => {
 
   const filterOptions = {
     availability: ['In Stock', 'Sold Out'],
-    priceRange: ['Under $30', '$30 - $50', 'Over $50'],
+    priceRange: ['Under LKR 5,000', 'Under LKR 10,000', 'LKR 10,000 - LKR 20,000', 'Over LKR 20,000'],
     size: ['S', 'M', 'L', 'XL', 'XXL'],
     gender: ['Men', 'Women', 'Unisex'],
     fit: ['Regular', 'Fitted', 'Oversize'],
@@ -108,10 +108,10 @@ const MensPage = () => {
     if (filters.priceRange.length > 0) {
       result = result.filter(product => {
         return filters.priceRange.some(range => {
-          const priceInDollars = product.price / 100;
-          if (range === 'Under $30' && priceInDollars < 30) return true;
-          if (range === '$30 - $50' && priceInDollars >= 30 && priceInDollars <= 50) return true;
-          if (range === 'Over $50' && priceInDollars > 50) return true;
+          if (range === 'Under LKR 5,000' && product.price < 5000) return true;
+          if (range === 'Under LKR 10,000' && product.price >= 5000 && product.price < 10000) return true;
+          if (range === 'LKR 10,000 - LKR 20,000' && product.price >= 10000 && product.price <= 20000) return true;
+          if (range === 'Over LKR 20,000' && product.price > 20000) return true;
           return false;
         });
       });

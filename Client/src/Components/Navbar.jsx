@@ -161,11 +161,23 @@ const Navbar = () => {
           <div className="hidden lg:flex items-center space-x-6 z-10">
             <div className="relative flex items-center">
               <Search className="absolute left-3 w-5 h-5 text-gray-900" />
-              <input
-                type="text"
-                placeholder="Search For a product..."
-                className="pl-10 pr-4 py-2 border border-gray-500 rounded-full focus:outline-none focus:border-black transition-colors text-sm"
-              />
+              <form
+                onSubmit={e => {
+                  e.preventDefault();
+                  const value = e.target.search.value.trim();
+                  if (value) {
+                    navigate(`/search?query=${encodeURIComponent(value)}`);
+                  }
+                }}
+                className="w-full"
+              >
+                <input
+                  name="search"
+                  type="text"
+                  placeholder="Search For a product..."
+                  className="pl-10 pr-4 py-2 border border-gray-500 rounded-full focus:outline-none focus:border-black transition-colors text-sm"
+                />
+              </form>
             </div>
             <div className="relative flex items-center">
               <div className="relative" tabIndex={-1} onBlur={handleProfileBlur}>

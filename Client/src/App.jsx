@@ -6,6 +6,7 @@ import Login from './Components/Login'
 import toast from 'react-hot-toast'
 import Register from './Components/Register'
 import ProductManagement from './Pages/ProductManagement'
+import Search from './Pages/Search';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/admin/products" element={<ProductManagement />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </div>
   )
