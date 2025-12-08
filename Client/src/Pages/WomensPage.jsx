@@ -147,7 +147,7 @@ const WomensPage = () => {
 
   const filterOptions = {
     availability: ['In Stock', 'Sold Out'],
-    priceRange: ['Under LKR 3,000', 'LKR 3,000 - LKR 5,000', 'Over LKR 5,000'],
+    priceRange: ['Under LKR 5,000', 'Under LKR 10,000', 'LKR 10,000 - LKR 20,000', 'Over LKR 20,000'],
     size: ['XS', 'S', 'M', 'L', 'XL', 'XXL'],
     gender: ['Women', 'Unisex'],
     fit: ['Regular', 'Fitted', 'Oversize'],
@@ -203,9 +203,10 @@ const WomensPage = () => {
     if (filters.priceRange.length > 0) {
       result = result.filter(product => {
         return filters.priceRange.some(range => {
-          if (range === 'Under LKR 3,000' && product.price < 3000) return true;
-          if (range === 'LKR 3,000 - LKR 5,000' && product.price >= 3000 && product.price <= 5000) return true;
-          if (range === 'Over LKR 5,000' && product.price > 5000) return true;
+          if (range === 'Under LKR 5,000' && product.price < 5000) return true;
+          if (range === 'Under LKR 10,000' && product.price >= 5000 && product.price < 10000) return true;
+          if (range === 'LKR 10,000 - LKR 20,000' && product.price >= 10000 && product.price <= 20000) return true;
+          if (range === 'Over LKR 20,000' && product.price > 20000) return true;
           return false;
         });
       });
