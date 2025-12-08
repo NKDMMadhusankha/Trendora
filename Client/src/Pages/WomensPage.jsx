@@ -1,5 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { SlidersHorizontal, X, ChevronRight } from 'lucide-react';
+import axios from 'axios';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 
@@ -14,9 +15,43 @@ const WomensPage = () => {
   
   const [showFilters, setShowFilters] = useState(false);
   const [sortBy, setSortBy] = useState('featured');
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await axios.get('/api/products?category=Women');
+      // Transform the backend products to match the frontend structure
+      const transformedProducts = res.data.products.map(product => ({
+        id: product._id,
+        name: product.name,
+        subtitle: product.description,
+        price: product.price,
+        colors: 1,
+        fit: 'Regular',
+        size: product.sizes || [],
+        gender: product.category,
+        available: true,
+        image: product.imageUrl
+      }));
+      setProducts(transformedProducts);
+    } catch (err) {
+      setError(err.message || 'Failed to fetch products');
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Sample product data for women's wear
-  const products = [
+  const sampleProducts = [
     {
       id: 1,
       name: 'Floral Summer Dress',
@@ -319,7 +354,16 @@ const WomensPage = () => {
 
         {/* Products Display */}
         <div className="py-8">
-          {filteredProducts.length > 0 ? (
+          {loading ? (
+            <div className="flex justify-center items-center py-20">
+              <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-slate-900"></div>
+            </div>
+          ) : error ? (
+            <div className="text-center py-16">
+              <p className="text-xl text-red-600 mb-4">Error loading products</p>
+              <p className="text-slate-600">{error}</p>
+            </div>
+          ) : filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-4 gap-y-9">
               {filteredProducts.map(product => (
                 <div
@@ -347,16 +391,14 @@ const WomensPage = () => {
                         {product.name}
                       </h3>
                       <p className="font-bold text-slate-900 text-sm ml-2 whitespace-nowrap">
-                        {product.price.toLocaleString()} LKR
+                        LKR {(product.price).toLocaleString('en-LK')}
                       </p>
                     </div>
                     {product.subtitle && (
-                      <p className="text-xs text-slate-500 mb-2">{product.subtitle}</p>
+                      <p className="text-xs text-slate-500 mb-2 line-clamp-2">{product.subtitle}</p>
                     )}
                     <div className="text-xs text-slate-600">
-                      <span>{product.fit}</span>
-                      <span className="mx-1">•</span>
-                      <span>{product.colors} colors</span>
+                      <span>Sizes: {product.size.join(', ')}</span>
                     </div>
                   </div>
                 </div>

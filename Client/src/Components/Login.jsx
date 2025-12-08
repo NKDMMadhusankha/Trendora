@@ -62,7 +62,11 @@ export default function LoginForm() {
         localStorage.setItem('isLoggedIn', 'true');
       }
       setTimeout(() => {
-        navigate('/'); // Redirect to HomePage after login
+        if (email === 'admin@gmail.com') {
+          navigate('/admin/products'); // Redirect admin to ProductManagement.jsx
+        } else {
+          navigate('/'); // Redirect regular user to HomePage
+        }
       }, 1200); // Wait for toast to show
     } catch (err) {
       setToast({ message: err.response?.data?.message || 'Login failed.', type: 'error' });

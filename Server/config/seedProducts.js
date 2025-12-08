@@ -100,6 +100,70 @@ const products = [
     category: 'Men',
     sizes: ['M', 'L', 'XL']
   },
+  {
+    name: 'Graphic Print Tee',
+    description: 'Trendy graphic print t-shirt for casual outings.',
+    price: 2199,
+    imageUrl: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=500',
+    category: 'Men',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Linen Shorts',
+    description: 'Lightweight linen shorts for summer comfort.',
+    price: 2599,
+    imageUrl: 'https://images.unsplash.com/photo-1591271300850-6ca7f3b93089?w=500',
+    category: 'Men',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Sports Tank Top',
+    description: 'Moisture-wicking tank top for workouts.',
+    price: 1899,
+    imageUrl: 'https://images.unsplash.com/photo-1562157873-818bc0726f68?w=500',
+    category: 'Men',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Wool Overcoat',
+    description: 'Elegant wool overcoat for formal occasions.',
+    price: 15999,
+    imageUrl: 'https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=500',
+    category: 'Men',
+    sizes: ['M', 'L', 'XL']
+  },
+  {
+    name: 'Printed Swim Shorts',
+    description: 'Colorful swim shorts for beach days.',
+    price: 2299,
+    imageUrl: 'https://images.unsplash.com/photo-1519368358672-25b03afee3bf?w=500',
+    category: 'Men',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Thermal Long Sleeve',
+    description: 'Warm thermal shirt for cold weather activities.',
+    price: 3499,
+    imageUrl: 'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=500',
+    category: 'Men',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Cotton Chinos',
+    description: 'Classic cotton chinos for smart casual looks.',
+    price: 3999,
+    imageUrl: 'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500',
+    category: 'Men',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Plaid Flannel Shirt',
+    description: 'Classic plaid flannel shirt for casual wear.',
+    price: 3199,
+    imageUrl: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=500',
+    category: 'Men',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
 
   // Women's Products
   {
@@ -197,6 +261,70 @@ const products = [
     imageUrl: 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500',
     category: 'Women',
     sizes: ['S', 'M', 'L']
+  },
+  {
+    name: 'Boho Midi Dress',
+    description: 'Bohemian style midi dress with floral patterns.',
+    price: 4599,
+    imageUrl: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=500',
+    category: 'Women',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Ruffle Sleeve Top',
+    description: 'Chic ruffle sleeve top for a feminine look.',
+    price: 2499,
+    imageUrl: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=500',
+    category: 'Women',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Wide Leg Trousers',
+    description: 'Elegant wide leg trousers for office or casual wear.',
+    price: 3999,
+    imageUrl: 'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500',
+    category: 'Women',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Denim Skirt',
+    description: 'Classic denim skirt with button front.',
+    price: 2999,
+    imageUrl: 'https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=500',
+    category: 'Women',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Peplum Blouse',
+    description: 'Stylish peplum blouse for a flattering silhouette.',
+    price: 2799,
+    imageUrl: 'https://images.unsplash.com/photo-1591369822096-ffd140ec948f?w=500',
+    category: 'Women',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Faux Fur Vest',
+    description: 'Trendy faux fur vest for layering.',
+    price: 3499,
+    imageUrl: 'https://images.unsplash.com/photo-1539533018447-63fcce2678e3?w=500',
+    category: 'Women',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Printed Palazzo Pants',
+    description: 'Comfortable palazzo pants with vibrant prints.',
+    price: 3199,
+    imageUrl: 'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500',
+    category: 'Women',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Sleeveless Maxi Dress',
+    description: 'Elegant sleeveless maxi dress for summer.',
+    price: 4299,
+    imageUrl: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500',
+    category: 'Women',
+    sizes: ['S', 'M', 'L', 'XL']
   }
 ];
 

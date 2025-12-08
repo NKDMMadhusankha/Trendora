@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const ProductManagement = () => {
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
+    const handleLogout = () => {
+      localStorage.removeItem('isLoggedIn');
+      navigate('/login');
+    };
   const [form, setForm] = useState({
     name: '',
     description: '',
@@ -104,15 +110,24 @@ const ProductManagement = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Product Management</h1>
-          <p className="mt-2 text-sm text-gray-600">Add and manage your products</p>
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">Product Management</h1>
+            <p className="mt-2 text-sm text-gray-600">Add and manage your products</p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 text-white px-5 py-2 rounded-lg font-medium hover:bg-red-700 transition"
+            style={{ position: 'absolute', right: '2rem', top: '2rem' }}
+          >
+            Log Out
+          </button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Add Product Form */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6">
+            <div className="bg-white rounded-lg shadow-md p-6 sticky top-8">
               <h2 className="text-xl font-semibold text-gray-800 mb-6">Add New Product</h2>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>

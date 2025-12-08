@@ -298,7 +298,7 @@ const MensPage = () => {
                         {product.name}
                       </h3>
                       <p className="font-bold text-slate-900 text-sm ml-2 whitespace-nowrap">
-                        ${(product.price / 100).toFixed(2)}
+                        LKR {(product.price).toLocaleString('en-LK')}
                       </p>
                     </div>
                     {product.subtitle && (
