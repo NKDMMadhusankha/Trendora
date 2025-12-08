@@ -1,6 +1,6 @@
 <div align="center">
 
-# 👗 Trendora
+# TRENDORA
 
 ### Modern E-Commerce Platform for Fashion Enthusiasts
 
