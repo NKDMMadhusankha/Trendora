@@ -77,10 +77,10 @@ export default function AccountPage() {
                             <img
                               src={item.product.imageUrl}
                               alt={item.product?.name || 'Product'}
-                              className="w-12 h-12 object-cover rounded flex-shrink-0 border"
+                              className="w-32 h-32 object-cover rounded flex-shrink-0 border"
                             />
                           ) : (
-                            <Package className="w-5 h-5 text-gray-400 flex-shrink-0" />
+                            <Package className="w-12 h-12 text-gray-400 flex-shrink-0" />
                           )}
                           <div className="flex-1">
                             <p className="text-sm font-medium text-gray-900">{item.product?.name || 'Product'}</p>

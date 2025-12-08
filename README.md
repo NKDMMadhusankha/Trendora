@@ -229,15 +229,8 @@ Trendora/
 
 <div align="center">
 
-## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome!
-
-## 📝 License
-
-This project is [MIT](LICENSE) licensed.
-
-## 👨‍💻 Author
+## Author
 
 **Madhusankha**
 
@@ -245,6 +238,5 @@ This project is [MIT](LICENSE) licensed.
 
 ---
 
-### ⭐ Don't forget to star this repo if you found it helpful!
 
 </div>

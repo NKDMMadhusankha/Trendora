@@ -117,7 +117,7 @@ const Navbar = () => {
     <nav className="bg-white shadow-md relative z-50">
       {/* Top Bar */}
       <div className="bg-gray-600 text-white text-center py-2 px-4 text-sm">
-        <p>BLACK FRIDAY SALE - UP TO 50% OFF | FREE SHIPPING ON ORDERS OVER $50</p>
+        <p>SELECTED ITEM SALE - UP TO 20% OFF | FREE SHIPPING ON ORDERS OVER LKR 5000</p>
       </div>
 
       {/* Main Navbar */}
