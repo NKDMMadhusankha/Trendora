@@ -20,9 +20,9 @@ export default function ProductCategorySection() {
     },
     {
       id: 3,
-      title: 'ACCESSORIES',
-      video: 'https://cdn.pixabay.com/video/2025/12/04/319811.mp4',
-      link: '/accessories'
+      title: 'KIDS',
+      video: 'https://cdn.pixabay.com/video/2024/09/03/229572_large.mp4',
+      link: '/kids'
     }
   ];
 

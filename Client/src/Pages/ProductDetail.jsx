@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useCart } from '../context/CartContext';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import toast, { Toaster } from 'react-hot-toast';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import CartDrawer from '../Components/CartDrawer';
@@ -42,6 +43,7 @@ const ProductDetail = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      <Toaster position="top-right" />
       <Navbar />
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
@@ -149,8 +151,12 @@ const ProductDetail = () => {
                   className="w-full bg-gray-900 text-white px-6 py-3.5 rounded-xl font-bold text-sm uppercase tracking-wide hover:bg-gray-800 transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-gray-900 shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0"
                   disabled={!selectedSize}
                   onClick={() => {
-                    if (!selectedSize) return;
+                    if (!selectedSize) {
+                      toast.error('Please select a size first!');
+                      return;
+                    }
                     dispatch({ type: 'ADD_ITEM', payload: { product, size: selectedSize } });
+                    toast.success(`${product.name} added to cart!`);
                     setCartOpen(true);
                   }}
                 >
@@ -160,8 +166,12 @@ const ProductDetail = () => {
                   className="w-full bg-white text-gray-900 px-6 py-3.5 rounded-xl font-bold text-sm uppercase tracking-wide border-2 border-gray-900 hover:bg-gray-900 hover:text-white transition-all duration-300 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-white disabled:hover:text-gray-900"
                   disabled={!selectedSize}
                   onClick={() => {
-                    if (!selectedSize) return;
+                    if (!selectedSize) {
+                      toast.error('Please select a size first!');
+                      return;
+                    }
                     dispatch({ type: 'ADD_ITEM', payload: { product, size: selectedSize } });
+                    toast.success('Proceeding to checkout...');
                     setTimeout(() => navigate('/checkout'), 100);
                   }}
                 >

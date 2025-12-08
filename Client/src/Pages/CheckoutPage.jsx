@@ -47,10 +47,16 @@ export default function CheckoutPage() {
       // Remove only purchased items from cart
       const params = new URLSearchParams(window.location.search);
       if (params.get('selected') === '1') {
-        // Remove each purchased item
-        checkoutItems.forEach(item => {
+        // Remove each purchased item from backend and frontend
+        for (const item of checkoutItems) {
+          await axios.delete('/api/cart/item', {
+            headers: { Authorization: `Bearer ${token}` },
+            data: { productId: item.product._id, size: item.size }
+          }).catch(err => console.error('Failed to remove item from backend:', err));
           dispatch({ type: 'REMOVE_ITEM', payload: { productId: item.product._id, size: item.size } });
-        });
+        }
+        // Clear selected items from localStorage
+        localStorage.removeItem('selectedBuyItems');
       } else {
         await clearCartBackend();
         dispatch({ type: 'CLEAR_CART' });

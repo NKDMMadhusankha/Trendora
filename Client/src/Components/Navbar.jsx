@@ -98,16 +98,20 @@ const Navbar = () => {
         }
       ]
     },
-    accessories: {
-      title: 'ACCESSORIES',
+    kids: {
+      title: 'KIDS',
       columns: [
         {
           title: 'SHOP ALL',
-          links: ['Bags', 'Caps', 'Belts', 'Socks', 'Sunglasses']
+          links: ['T-Shirts', 'Shirts', 'Shorts', 'Dresses', 'New Arrivals', 'Best Sellers']
         },
         {
-          title: 'CATEGORIES',
-          links: ['Gym Bags', 'Backpacks', 'Wallets', 'Watches', 'Jewelry']
+          title: 'CLOTHING',
+          links: ['Tops', 'Bottoms', 'Hoodies & Jackets', 'Activewear', 'Sleepwear', 'Underwear']
+        },
+        {
+          title: 'COLLECTIONS',
+          links: ['School Essentials', 'Play Time', 'Party Wear', 'Casual Comfort']
         }
       ]
     }
@@ -133,26 +137,22 @@ const Navbar = () => {
           {/* Desktop Menu - Absolute Center */}
           <div className="hidden lg:flex items-center space-x-8 absolute left-1/2 transform -translate-x-1/2">
             {Object.entries(menuItems).map(([key, menu]) => (
-              <div
-                key={key}
-                className="relative group"
-                onMouseEnter={() => handleMouseEnter(key)}
-                onMouseLeave={handleMouseLeave}
-              >
+              <div key={key}>
                 {key === 'men' ? (
-                  <Link to="/mens" className="flex items-center space-x-1 text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
-                    <span>{menu.title}</span>
-                    <ChevronDown className="w-4 h-4" />
+                  <Link to="/mens" className="text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
+                    {menu.title}
                   </Link>
                 ) : key === 'women' ? (
-                  <Link to="/womens" className="flex items-center space-x-1 text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
-                    <span>{menu.title}</span>
-                    <ChevronDown className="w-4 h-4" />
+                  <Link to="/womens" className="text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
+                    {menu.title}
+                  </Link>
+                ) : key === 'kids' ? (
+                  <Link to="/kids" className="text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
+                    {menu.title}
                   </Link>
                 ) : (
-                  <button className="flex items-center space-x-1 text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
-                    <span>{menu.title}</span>
-                    <ChevronDown className="w-4 h-4" />
+                  <button className="text-gray-800 hover:text-gray-600 font-bold text-lg transition-colors">
+                    {menu.title}
                   </button>
                 )}
               </div>
@@ -245,44 +245,6 @@ const Navbar = () => {
 
       {/* Cart Drawer Popup */}
       <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
-      {/* Mega Menu Desktop */}
-      <AnimatePresence>
-        {activeMegaMenu && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            className="hidden lg:block absolute left-0 right-0 bg-white shadow-lg border-t"
-            onMouseEnter={() => handleMouseEnter(activeMegaMenu)}
-            onMouseLeave={handleMouseLeave}
-          >
-            <div className="py-5">
-              <div className="grid grid-cols-3 gap-60 max-w-6xl mx-auto px-20">
-                {menuItems[activeMegaMenu].columns.map((column, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.3, delay: idx * 0.1 }}
-                  >
-                    <h3 className="font-bold text-lg mb-4 text-gray-900">{column.title}</h3>
-                    <ul className="space-y-2">
-                      {column.links.map((link, linkIdx) => (
-                        <li key={linkIdx}>
-                          <a href="#" className="text-gray-600 hover:text-black text-lg transition-all duration-200 block py-1 hover:underline underline-offset-2 uppercase">
-                            {link}
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
@@ -293,45 +255,28 @@ const Navbar = () => {
                 {key === 'men' ? (
                   <Link
                     to="/mens"
-                    className="flex items-center justify-between w-full text-left font-medium text-gray-900"
+                    className="block w-full text-left font-medium text-gray-900"
                   >
-                    <span>{menu.title}</span>
-                    <ChevronDown className={`w-4 h-4 transition-transform ${activeMegaMenu === key ? 'rotate-180' : ''}`} />
+                    {menu.title}
                   </Link>
                 ) : key === 'women' ? (
                   <Link
                     to="/womens"
-                    className="flex items-center justify-between w-full text-left font-medium text-gray-900"
+                    className="block w-full text-left font-medium text-gray-900"
                   >
-                    <span>{menu.title}</span>
-                    <ChevronDown className={`w-4 h-4 transition-transform ${activeMegaMenu === key ? 'rotate-180' : ''}`} />
+                    {menu.title}
+                  </Link>
+                ) : key === 'kids' ? (
+                  <Link
+                    to="/kids"
+                    className="block w-full text-left font-medium text-gray-900"
+                  >
+                    {menu.title}
                   </Link>
                 ) : (
-                  <button
-                    onClick={() => setActiveMegaMenu(activeMegaMenu === key ? null : key)}
-                    className="flex items-center justify-between w-full text-left font-medium text-gray-900"
-                  >
-                    <span>{menu.title}</span>
-                    <ChevronDown className={`w-4 h-4 transition-transform ${activeMegaMenu === key ? 'rotate-180' : ''}`} />
+                  <button className="block w-full text-left font-medium text-gray-900">
+                    {menu.title}
                   </button>
-                )}
-                {activeMegaMenu === key && (
-                  <div className="mt-4 space-y-4">
-                    {menu.columns.map((column, idx) => (
-                      <div key={idx}>
-                        <h4 className="font-semibold text-sm mb-2 text-gray-900">{column.title}</h4>
-                        <ul className="space-y-2 ml-4">
-                          {column.links.map((link, linkIdx) => (
-                            <li key={linkIdx}>
-                              <a href="#" className="text-gray-600 text-sm hover:text-gray-900">
-                                {link}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
                 )}
               </div>
             ))}

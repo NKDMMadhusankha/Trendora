@@ -46,12 +46,13 @@ const uploadAllImages = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDB');
 
-    // Get all products with external URLs (Unsplash)
+    // Get all Kids products with external URLs (Unsplash)
     const products = await Product.find({
+      category: 'Kids',
       imageUrl: { $regex: 'unsplash.com', $options: 'i' }
     });
 
-    console.log(`Found ${products.length} products with Unsplash images`);
+    console.log(`Found ${products.length} Kids products with Unsplash images`);
 
     for (let i = 0; i < products.length; i++) {
       const product = products[i];

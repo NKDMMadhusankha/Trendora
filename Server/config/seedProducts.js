@@ -325,6 +325,168 @@ const products = [
     imageUrl: 'https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=500',
     category: 'Women',
     sizes: ['S', 'M', 'L', 'XL']
+  },
+
+  // Kids Products
+  {
+    name: 'Kids Cotton T-Shirt',
+    description: 'Soft and comfortable cotton t-shirt for everyday wear.',
+    price: 1299,
+    imageUrl: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Denim Jeans',
+    description: 'Durable denim jeans with adjustable waist for growing kids.',
+    price: 2499,
+    imageUrl: 'https://images.unsplash.com/photo-1606841466616-795c2c8dec72?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Hoodie',
+    description: 'Cozy fleece hoodie to keep your child warm.',
+    price: 2299,
+    imageUrl: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Shorts',
+    description: 'Comfortable shorts perfect for play and sports.',
+    price: 1499,
+    imageUrl: 'https://plus.unsplash.com/premium_photo-1691367782367-2bd37f646abc?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Dress',
+    description: 'Pretty dress for special occasions and parties.',
+    price: 2999,
+    imageUrl: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Joggers',
+    description: 'Athletic joggers for active kids.',
+    price: 1899,
+    imageUrl: 'https://images.unsplash.com/photo-1611312449408-fcece27cdbb7?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Polo Shirt',
+    description: 'Classic polo shirt for a smart casual look.',
+    price: 1699,
+    imageUrl: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Winter Jacket',
+    description: 'Warm winter jacket with hood and pockets.',
+    price: 4499,
+    imageUrl: 'https://images.unsplash.com/photo-1578932750294-f5075e85f44a?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Leggings',
+    description: 'Stretchy and comfortable leggings for all-day wear.',
+    price: 1399,
+    imageUrl: 'https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Graphic Tee',
+    description: 'Fun graphic t-shirt with colorful prints.',
+    price: 1499,
+    imageUrl: 'https://images.unsplash.com/photo-1503919545889-aef636e10ad4?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Tracksuit',
+    description: 'Complete tracksuit set for sports and leisure.',
+    price: 3499,
+    imageUrl: 'https://images.unsplash.com/photo-1614676471928-2ed0ad1061a4?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Rain Jacket',
+    description: 'Waterproof jacket to keep dry on rainy days.',
+    price: 2799,
+    imageUrl: 'https://images.unsplash.com/photo-1558140275-6b7b7bf2cfa1?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids School Uniform Shirt',
+    description: 'Crisp white shirt perfect for school.',
+    price: 1599,
+    imageUrl: 'https://plus.unsplash.com/premium_photo-1663126441273-07d4d172c41d?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Swim Shorts',
+    description: 'Quick-dry swim shorts for beach and pool.',
+    price: 1299,
+    imageUrl: 'https://images.unsplash.com/photo-1621452773781-0f992fd1f5cb?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Party Dress',
+    description: 'Elegant party dress for special celebrations.',
+    price: 3799,
+    imageUrl: 'https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Cargo Pants',
+    description: 'Practical cargo pants with multiple pockets.',
+    price: 2199,
+    imageUrl: 'https://images.unsplash.com/photo-1560243563-062bfc001d68?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Sports Jersey',
+    description: 'Breathable sports jersey for active play.',
+    price: 1799,
+    imageUrl: 'https://images.unsplash.com/photo-1622290291468-a28f7a7dc6a8?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Sweater',
+    description: 'Warm knit sweater for cooler weather.',
+    price: 2599,
+    imageUrl: 'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Skirt',
+    description: 'Cute and comfortable skirt for everyday wear.',
+    price: 1699,
+    imageUrl: 'https://images.unsplash.com/photo-1519457431-44ccd64a579b?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
+  },
+  {
+    name: 'Kids Pyjama Set',
+    description: 'Soft and cozy pyjama set for bedtime.',
+    price: 2299,
+    imageUrl: 'https://images.unsplash.com/photo-1519340241574-2cec6aef0c01?w=500',
+    category: 'Kids',
+    sizes: ['S', 'M', 'L', 'XL']
   }
 ];
 

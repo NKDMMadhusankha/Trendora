@@ -9,13 +9,26 @@ const initialState = {
 
 function cartReducer(state, action) {
   switch (action.type) {
-    case 'LOAD_CART':
-      return { ...state, items: action.payload };
+    case 'LOAD_CART': {
+      // Filter out items with null or invalid products
+      const validItems = action.payload.filter(item => {
+        if (!item.product || !item.product._id) {
+          console.warn('Skipping invalid item during LOAD_CART:', item);
+          return false;
+        }
+        return true;
+      });
+      return { ...state, items: validItems };
+    }
     case 'ADD_ITEM': {
       const { product, size } = action.payload;
+      if (!product || !product._id) {
+        console.error('Invalid product in ADD_ITEM action');
+        return state;
+      }
       // Check if item with same product and size exists
       const existingIndex = state.items.findIndex(
-        item => item.product._id === product._id && item.size === size
+        item => item.product && item.product._id === product._id && item.size === size
       );
       if (existingIndex !== -1) {
         // Update quantity
@@ -33,7 +46,7 @@ function cartReducer(state, action) {
       return {
         ...state,
         items: state.items.filter(
-          item => !(item.product._id === productId && item.size === size)
+          item => !(item.product && item.product._id === productId && item.size === size)
         ),
       };
     }
@@ -42,7 +55,7 @@ function cartReducer(state, action) {
       return {
         ...state,
         items: state.items.map(item =>
-          item.product._id === productId && item.size === size
+          item.product && item.product._id === productId && item.size === size
             ? { ...item, quantity }
             : item
         ),
@@ -68,18 +81,45 @@ export function CartProvider({ children }) {
     }).then(res => {
       console.log('Cart response:', res.data);
       if (res.data.cart && res.data.cart.items) {
-        dispatch({ type: 'LOAD_CART', payload: res.data.cart.items });
+        console.log('Loading cart items:', res.data.cart.items);
+        // Filter items to ensure all have valid products
+        const validItems = res.data.cart.items.filter(item => {
+          if (!item.product) {
+            console.warn('Skipping item with null product:', item);
+            return false;
+          }
+          return true;
+        });
+        console.log('Valid cart items to load:', validItems);
+        dispatch({ type: 'LOAD_CART', payload: validItems });
       }
-    }).catch((err) => { console.error('Cart fetch error:', err); });
+    }).catch((err) => { 
+      console.error('Cart fetch error:', err);
+      if (err.response) {
+        console.error('Error response:', err.response.data);
+      }
+    });
   }, []);
 
   // Sync cart changes to backend
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) return;
+    
+    // Always sync cart state to backend, even when empty
     if (state.items.length > 0) {
-      console.log('Syncing cart to backend:', state.items);
-      axios.post('/api/cart/sync', { items: state.items }, {
+      // Filter out items with invalid products before syncing
+      const validItems = state.items.filter(item => item.product && item.product._id);
+      if (validItems.length > 0) {
+        console.log('Syncing cart to backend:', validItems);
+        axios.post('/api/cart/sync', { items: validItems }, {
+          headers: { Authorization: `Bearer ${token}` }
+        }).catch((err) => { console.error('Cart sync error:', err); });
+      }
+    } else {
+      // Sync empty cart to backend
+      console.log('Syncing empty cart to backend');
+      axios.post('/api/cart/sync', { items: [] }, {
         headers: { Authorization: `Bearer ${token}` }
       }).catch((err) => { console.error('Cart sync error:', err); });
     }
